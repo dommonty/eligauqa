@@ -1,0 +1,72 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.businessoutcome._id ? 'Edit Business Outcome' : 'New Business Outcome'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.businessoutcomeForm" class="form-horizontal"
+          ng-submit="vm.save(vm.form.businessoutcomeForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.businessoutcome.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.businessoutcomeForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Businessoutcome name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Description</label>
+          <textarea name="description" type="text" ng-model="vm.businessoutcome.description" id="description"
+                    class="form-control" rows="4">
+            </textarea>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessPeriod">Business Period</label>
+          <select name="businessPeriod" id="businessPeriod" ng-model="vm.businessoutcome.businessPeriod"
+                  class="form-control"
+                  required ng-options="period.periodDescription for period in vm.periods track by period._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.businessoutcomeForm.businessPeriod.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business period is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Measurement unit <span
+            class="tooltip-help ssticon ssticon-help hidden-print"
+            title="Optional field to help measure the outcome.  e.g. story points or dollars"></span></label>
+          <input name="measurementUnit" type="text" ng-model="vm.businessoutcome.measurementUnit" id="measurementUnit"
+                 class="form-control"
+                 placeholder="e.g Story points or $">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Target <span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                               title="Target set to achieve for this outcome based on the measurement unit"></span></label>
+          <input name="target" type="text" ng-model="vm.businessoutcome.target" id="target"
+                 class="form-control"
+                 placeholder="">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="actual">Actual <span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                                 title="How much of the target has been achieved"></span></label>
+          <input name="target" type="text" ng-model="vm.businessoutcome.actual" id="actual"
+                 class="form-control"
+                 placeholder="">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="core">Core<span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                            title="check this box if this outcome must be worked on by the business unit"></span></label>
+          <input name="core" type="checkbox" ng-model="vm.businessoutcome.core" id="core"
+                 class="form-control">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.businessoutcome._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div ng-show="false" id="targetvsactualchart"></div>
+</section>

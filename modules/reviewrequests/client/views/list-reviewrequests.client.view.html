@@ -1,0 +1,57 @@
+<section>
+  <div class="page-header">
+    <h2>Outcome review requests</h2>
+
+  </div>
+  <div class="row">
+    <div class="col-md-8" style="margin-top: 2em">
+      <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search"
+             ng-change="vm.figureOutItemsToDisplay()"/>
+    </div>
+  </div>
+  <div class="list-group" style="margin-top: 2em">
+
+    <a data-ng-repeat="reviewrequest in vm.pagedItems"
+       data-ui-sref="reviewrequests.view({ reviewrequestId: reviewrequest._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="reviewrequest.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="reviewrequest.user" data-ng-bind="reviewrequest.user.displayName"></span>
+        <span data-ng-if="!reviewrequest.user">Deleted User</span>
+      </small>
+      <table class="display table dataTable table-formatting table-striped">
+        <tbody>
+        <tr>
+          <td><b>Request Name</b></td>
+          <td>{{reviewrequest.name}}</td>
+          <td><b>Status</b></td>
+          <td>{{reviewrequest.statusDescription}}</td>
+        </tr>
+        <tr>
+          <td><b>Reviewer</b></td>
+          <td>{{reviewrequest.reviewer.name}}</td>
+          <td><b>Reviewee</b></td>
+          <td>{{reviewrequest.reviewee.name}}</td>
+        </tr>
+        <tr>
+          <td><b>Reviewed period from</b></td>
+          <td>{{reviewrequest.businessPeriod.periodFrom | date :medium}}</td>
+          <td><b>Reviewed period to</b></td>
+          <td>{{reviewrequest.businessPeriod.periodTo | date: medium}}</td>
+        </tr>
+        <tr>
+          <td><b>Review due by</b></td>
+          <td>{{reviewrequest.dueBy | date :medium}}</td>
+          <td><b>Outcome Squad</b></td>
+          <td>{{reviewrequest.outcomeSquad.name}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.reviewrequests.$resolved && !vm.reviewrequests.length">
+    No outstanding feedback requests
+  </div>
+</section>

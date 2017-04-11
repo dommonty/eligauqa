@@ -1,0 +1,33 @@
+<section>
+  <div class="page-header">
+    <h2> Revenue Allocation for {{vm.revenueallocation.product.name}}</h2>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.revenueallocation.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="vm.revenueallocation.user"
+              data-ng-bind="vm.revenueallocation.user.displayName"></span>
+        <span data-ng-if="!vm.revenueallocation.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.revenueallocation.isCurrentUserOwner">
+    <a class="btn btn-primary"
+       data-ui-sref="revenueallocations.list({ productId: vm.product._id })">
+      Revenue Allocations
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="revenueallocations.edit({ revenueallocationId: vm.revenueallocation._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <p>{{vm.revenueallocation.squad.name}}</p>
+  <p>{{vm.revenueallocation.allocation}} %</p>
+</section>
+
+

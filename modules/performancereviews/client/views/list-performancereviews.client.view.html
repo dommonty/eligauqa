@@ -1,0 +1,45 @@
+ <section>
+  <div class="page-header">
+    <h1>Squad outcome reviews</h1>
+  </div>
+
+  <div class="list-group">
+    <a data-ng-repeat="performancereview in vm.performancereviews"
+       data-ui-sref="performancereviews.view({ performancereviewId: performancereview._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="performancereview.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="performancereview.user" data-ng-bind="performancereview.user.displayName"></span>
+        <span data-ng-if="!performancereview.user">Deleted User</span>
+      </small>
+      <table class="display table dataTable table-formatting table-striped">
+        <tbody>
+        <tr>
+          <td><b>Squad review description</b></td>
+          <td>{{performancereview.name}}</td>
+          <td><b>Prepared by</b></td>
+          <td>{{performancereview.assignee.displayName}}</td>
+        </tr>
+        <tr>
+          <td><b>Reviewed period from</b></td>
+          <td>{{performancereview.request.businessPeriod.periodFrom | date :medium}}</td>
+          <td><b>Reviewed period to</b></td>
+          <td>{{performancereview.request.businessPeriod.periodTo |date :medium}}</td>
+        </tr>
+        <tr>
+          <td><b>Reviewee</b></td>
+          <td>{{performancereview.request.reviewee.name}}</td>
+          <td><b>Status</b></td>
+          <td>{{performancereview.request.statusDescription}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center"
+       data-ng-if="vm.performancereviews.$resolved && !vm.performancereviews.length">
+    No outstanding feedback reviews
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<section>
+  <div class="page-header">
+    <h1>Activity Timeline</h1>
+    <h2>{{vm.customer.name}}</h2>
+  </div>
+  <timeline>
+    <timeline-event ng-repeat="event in vm.events | orderBy:'-time'" side="alternate">
+      <timeline-badge class="{{event.badgeClass}}">
+        <i class="glyphicon {{event.badgeIconClass}}"></i>
+      </timeline-badge>
+      <timeline-panel class="{{event.badgeClass}}">
+        <timeline-heading>
+          <h4>{{event.title}}</h4>
+          ({{event.type}})
+        </timeline-heading>
+          <small class="list-group-item-text">
+            <i class="glyphicon glyphicon-time"></i> Posted {{event.timeFromNow}}
+            by
+            <span data-ng-if="event.user">{{event.user.displayName}}</span>
+            <span data-ng-if="!event.user">Deleted User</span>
+          </small>
+        <p ng-show="!event.showFull">{{event.content}}</p>
+        <p ng-show="event.showFull">{{event.fullContent}}</p>
+        <button ng-show="event.fullContent.length > 200 && !event.showFull" ng-click="vm.showFullContentForEvent(event, true)">more...</button>
+        <button ng-show="event.fullContent.length > 200 && event.showFull" ng-click="vm.showFullContentForEvent(event, false)">less...</button>
+      </timeline-panel>
+    </timeline-event>
+  </timeline>
+</section>

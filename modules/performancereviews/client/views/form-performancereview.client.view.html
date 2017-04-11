@@ -1,0 +1,94 @@
+<section>
+  <div class="page-header">
+    <h2>Squad member outcome review prepared by {{vm.performancereview.assignee.displayName}}</h2>
+  </div>
+  <div class="row panel-heading">
+    <div class="col-md-8">
+      <h2>Review for: {{vm.performancereview.request.reviewee.name}}</h2>
+      <h2>Review description: {{vm.performancereview.name}}</h2>
+      <h3>Review period: {{vm.performancereview.request.businessPeriod.periodDescription}}
+        ({{vm.performancereview.request.businessPeriod.periodFrom | date :medium}} -
+        {{vm.performancereview.request.businessPeriod.periodTo | date :medium}})</h3>
+      <h3>The reviewer is: {{vm.performancereview.request.reviewer.name}}</h3>
+      <br>
+      <h3>Please rate {{vm.performancereview.request.reviewee.name}} against the following squad outcomes below:</h3>
+    </div>
+    <div class="col-md-4">
+      <div id="container-speed" style="width: 300px; height: 200px;">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form name="vm.form.performancereviewForm" class="form-horizontal"
+            ng-submit="vm.save(vm.form.performancereviewForm.$valid)" novalidate>
+        <fieldset>
+
+          <div class="form-group" ng-repeat="outcome in vm.performancereview.outcomes">
+            <label for="rating">{{outcome.mandatory? 'Mandatory rating': 'Optional rating'}} {{$index + 1}}.
+              {{outcome.description}}</label>
+            <select name="rating" id="rating" ng-model="outcome.score" class="form-control"
+                    ng-change="vm.updateScoreGauge()">
+              <option value="1">Nothing done of this outcome</option>
+              <option value="2">Did some work on the outcome</option>
+              <option value="3">Did what was expected of me to achieve</option>
+              <option value="4">Exceeded what was expected of me</option>
+              <option value="5">Did an outstanding job! Significantly exceeded what was expected of me</option>
+              <option value="">---Please select the best answer ---</option>
+            </select>
+          </div>
+          <br>
+          <div class="form-group" show-errors>
+            <label for="whatHasWorked">In a few words, tell us what has worked during this period?</label>
+            <textarea autofocus rows="4" type="text" name="whatHasWorked"
+                      ng-model="vm.performancereview.whatHasWorked"
+                      id="whatHasWorked"
+                      class="form-control"
+                      required
+                      placeholder="Enter text ...">
+          </textarea>
+            <div ng-messages="vm.form.performancereviewForm.whatHasWorked.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Please give us a few words for what has
+                worked</p>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label for="whatHasNotWorked">In a few words, tell us what has not worked during this period?</label>
+            <textarea autofocus rows="4" type="text" name="whatHasNotWorked"
+                      ng-model="vm.performancereview.whatHasNotWorked"
+                      id="whatHasNotWorked"
+                      class="form-control" required
+                      placeholder="Enter text ...">
+          </textarea>
+            <div ng-messages="vm.form.performancereviewForm.whatHasNotWorked.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Please give us a few words for what has not
+                worked</p>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label for="whatCanBeDoneBetter">In a few words, tell us what can be improved during this period?</label>
+            <textarea autofocus rows="4" type="text" name="whatCanBeDoneBetter"
+                      ng-model="vm.performancereview.whatCanBeDoneBetter"
+                      id="whatCanBeDoneBetter"
+                      class="form-control" required
+                      placeholder="Enter text ...">
+          </textarea>
+            <div ng-messages="vm.form.performancereviewForm.whatCanBeDoneBetter.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Please give us a few improvements suggestions</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <button ng-show="vm.showSave()" type="submit" class="btn btn-secondary">Save your review
+            </button>
+            <button  ng-click="vm.goBack()" type="button" class="btn btn-primary">Cancel
+            </button>
+          </div>
+          <div ng-show="vm.error" class="text-danger">
+            <strong ng-bind="vm.error"></strong>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="panel-footer"></div>
+  </div>
+</section>

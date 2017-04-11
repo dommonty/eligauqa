@@ -1,0 +1,134 @@
+<div ng-controller="HeaderController">
+  <div class="topbar-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 topbar">
+          <div class="topbar-admin-menu-wrapper">
+            <ul class="topbar-admin-menu">
+              <li class="topbar-admin-menu-item" ng-if="authentication.user">
+                <div class="dropdown topbar-admin-menu-dropdown" uib-dropdown>
+                  <button id="user-options" type="button" class="btn dropdown-toggle topbar-admin-menu-dropdown-toggle" uib-dropdown-toggle>
+                    <span class="ssticon ssticon-person"></span>
+                    <span translate class="hidden-xs hidden-sm">WELCOME</span> <span class="hidden-xs hidden-sm">{{ authentication.user.firstName + ' ' + authentication.user.lastName }}</span><span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu topbar-admin-menu-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="user-options">
+                    <li ui-sref-active="active">
+                      <a ui-sref="settings.profile" translate>EDIT PROFILE</a>
+                    </li>
+                    <li ui-sref-active="active">
+                      <a ui-sref="settings.password" translate>CHANGE PASSWORD</a>
+                    </li>
+                    <li ui-sref-active="active">
+                      <a ui-sref="admin.users" translate>MANAGEUSERS</a>
+                    </li>
+                    <li ng-if="authentication.user">
+                      <a ng-click="signout()" target="_self" translate>SIGNOUT</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="authentication.user">
+                <a class="topbar-admin-menu-button" href="javascript:void(0)"><span
+                  class="ssticon ssticon-notifications"></span><span translate class="hidden-sm hidden-xs">ALERTS</span></span></a>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="authentication.user">
+                <a class="topbar-admin-menu-button" ui-sref="securemessages.list"><span
+                  class="ssticon ssticon-mark-unread"></span><span translate class="hidden-sm hidden-xs">MESSAGES</span></a>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="authentication.user">
+                <a class="topbar-admin-menu-button" ui-sref="settings.profile"><span
+                  class="ssticon ssticon-settings"></span><span translate class="hidden-sm hidden-xs">SETTINGS</span></a>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="authentication.user">
+                <a class="topbar-admin-menu-button" href="/api/auth/signout" target="_self "ng-click="signout()" target="_self">
+                  <span class="ssticon ssticon-signout"></span><span translate class="hidden-sm hidden-xs">SIGNOUT</span>
+                </a>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="!authentication.user">
+                <a class="topbar-admin-menu-button" href="/authentication/signin" target="_self">
+                  <span class="ssticon ssticon-login"></span><span translate class="hidden-sm hidden-xs">SIGNIN</span>
+                </a>
+              </li>
+              <li class="topbar-admin-menu-item" ng-if="!authentication.user">
+                <a class="topbar-admin-menu-button" href="/authentication/signup" target="_self">
+                  <span class="ssticon ssticon-order-card"></span><span translate class="hidden-sm hidden-xs">SIGNUP</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <header class="header-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 header">
+          <div class="row">
+            <div id="col-navbar-toggle" class="col-xs-3 navbar-toggle-container">
+              <button class="navbar-toggle" type="button" ng-click="toggleCollapsibleMenu()">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="logo-wrapper">
+              <a ui-sref="home" title="Click to go to Sandstone pricing Home Page" class="logo custom-logo">
+                <img src="modules/core/client/img/brand/sandstone-logo.png" alt="pricing"/>
+              </a>
+              <!--<h5 ng-if="authentication.user.defaultEntity">Default Entity:
+                {{authentication.user.defaultEntity.name}} </h5>-->
+            </div>
+            <div class="navigation">
+              <div class="navbar navbar-default">
+
+                <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+                  <ul class="nav navbar-nav" ng-if="menu.shouldRender(authentication.user);">
+                    <li ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
+                      <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
+                      <ul ng-switch-when="dropdown" class="dropdown-menu">
+                        <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active">
+                          <a ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
+                        </li>
+                      </ul>
+                      <a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right" ng-show="authentication.user">
+                    <li class="dropdown" dropdown>
+                      <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+                        <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
+                        <span ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li ui-sref-active="active">
+                          <a ui-sref="settings.profile">Edit Profile</a>
+                        </li>
+                        <li ui-sref-active="active">
+                          <a ui-sref="settings.picture">Change Profile Picture</a>
+                        </li>
+                        <li ui-sref-active="active" ng-show="authentication.user.provider === 'local'">
+                          <a ui-sref="settings.password">Change Password</a>
+                        </li>
+                        <li ui-sref-active="active">
+                          <a ui-sref="settings.accounts">Manage Social Accounts</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                          <a href="/api/auth/signout" target="_self">Signout</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+

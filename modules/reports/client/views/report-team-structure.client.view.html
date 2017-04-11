@@ -1,0 +1,47 @@
+<section>
+  <h1>Team Report</h1>
+  <span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+    </div>
+    <div class="col-md-3" style="margin-top: 4em">
+      <button ng-show="vm.businessUnit && vm.probability >= 0" class="btn btn-primary btn-sm"
+              ng-click="vm.businessUnitChanged()">Generate Report</button>
+    </div>
+
+  </span>
+  <div ng-repeat="outcomeTeam in vm.outcomeTeams track by outcomeTeam._id">
+    <h2>{{outcomeTeam.name}}</h2>
+    <h4>{{outcomeTeam.outcomeOwner.name}}</h4>
+    <table
+      class="display table dataTable table-formatting table-striped" id="team-table"
+      aria-describedby="team-table_info">
+      <tr>
+        <td><b>Squad Name</b></td>
+        <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index"> {{squad.name}}</td>
+      </tr>
+      <tr>
+        <td><b>Squad Owner</b></td>
+        <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index"> {{squad.squadOwner.name}}</td>
+      </tr>
+      <tr>
+        <td><b>Squad Members</b></td>
+        <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+          <ul>
+            <li ng-repeat="allocation in vm.squadMembers[squad._id] track by $index">{{allocation.employee.name}} ({{allocation.allocation}}%)</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+    <hr/>
+  </div>
+
+</section>
+
+
+
+

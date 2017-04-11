@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Contract Terms</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="contractterm in vm.contractterms"
+       data-ui-sref="contractterms.view({ contracttermId: contractterm._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="contractterm.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="contractterm.user" data-ng-bind="contractterm.user.displayName"></span>
+        <span data-ng-if="!contractterm.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading">{{contractterm.contractTerm}} Years</h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.contractterms.$resolved && !vm.contractterms.length">
+    No Contract Term yet, why don't you <a data-ui-sref="contractterms.create">create one</a>?
+  </div>
+</section>

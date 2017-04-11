@@ -1,0 +1,42 @@
+<section>
+  <div class="page-header">
+    <h1>Business Unit</h1>
+    <h2 data-ng-bind="vm.businessunit.name"></h2>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.businessunit.isCurrentUserOwner || vm.authentication.user.isAdmin">
+    <a class="btn btn-primary"
+       data-ui-sref="businessunits.edit({ businessunitId: vm.businessunit._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="businessoutcomes.list({ businessunitId: vm.businessunit._id })">
+      Outcomes
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="businessunits.import({ businessunitId: vm.businessunit._id })">
+      Import Employees
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.businessunit.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.businessunit.user"
+            data-ng-bind="vm.businessunit.user.displayName"></span>
+      <span data-ng-if="!vm.businessunit.user">Deleted User</span>
+    </em>
+  </small>
+  <br>
+  <div class="col-md-4">
+    <h2>Outcome Teams</h2>
+    <div ng-if="vm.outcomeTeams.length === 0" uib-alert>No Outcome Teams exist for this business unit</div>
+    <ul class="list-group">
+      <li ng-repeat="outcomeTeam in vm.outcomeTeams" class="list-group-item">{{outcomeTeam.name}}</li>
+    </ul>
+  </div>
+</section>

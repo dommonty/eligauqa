@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Business Periods</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="period in vm.periods"
+       data-ui-sref="periods.view({ periodId: period._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="period.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="period.user" data-ng-bind="period.user.displayName"></span>
+        <span data-ng-if="!period.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="period.periodDescription"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.periods.$resolved && !vm.periods.length">
+    No Periods yet, why don't you <a data-ui-sref="periods.create">create one</a>?
+  </div>
+</section>

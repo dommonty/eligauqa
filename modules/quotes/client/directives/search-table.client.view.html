@@ -1,0 +1,53 @@
+<section>
+        <span class="row">
+          <div class="col-md-4" style="margin-top: 2em">
+            <input autofocus class="form-control col-md-4" type="text" ng-model="vm1.search" placeholder="Search"
+                   ng-change="vm1.figureOutItemsToDisplay()"/>
+          </div>
+          </span>
+  <table class="display table dataTable table-formatting table-striped" id="dynamic-table"
+         aria-describedby="dynamic-table_info">
+    <thead>
+    <tr role="row">
+      <th ng-repeat="title in vm1.titles">
+        <a href="#" ng-click="vm1.sortIndex=$index; vm1.sortReverse = !vm1.sortReverse">
+          <span ng-show="vm1.sortIndex === $index && vm1.sortReverse"
+                class="glyphicon glyphicon-triangle-bottom"></span>
+          <span ng-show="vm1.sortIndex === $index && !vm1.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+          <div class="th">{{title}}</div>
+        </a>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--storedObject is a placeholder to keep the object used to populate the table-->
+    <!--it is not used by the directive-->
+    <div ng-if="vm1.pagedItems.length">
+      <tr ng-repeat="entry in vm1.pagedItems | orderBy:vm1.sortIndex.toString():vm1.sortReverse track by $index">
+        <td ng-repeat="(key, value) in entry" ng-if="key ==='imageSrc'" align="left"><img width="60" ng-src="{{value}}">
+        </td>
+        <td ng-class="{'label-error': entry.showError}"
+            ng-if="key !=='imageSrc' && key !=='_id' && key !=='showError' && key !== 'storedObject' "
+            ng-repeat="(key, value) in entry">
+          <span ng-if="key!=0">{{value}}</span>
+          <a ng-click="vm1.viewLinkClicked(entry)" ng-if="key==0">{{value}}</a>
+        </td>
+        <td>
+          <div ng-show="vm1.menuItemLabels" class="dropdown" uib-dropdown>
+            <span class="ssticon ssticon-more-vertical" uib-dropdown-toggle></span>
+            <ul class="dropdown-menu dropdown-right-aligned" role="menu" uib-dropdown-menu>
+              <li ng-repeat="menuItem in vm1.menuItemLabels track by $index">
+                <a href="javascript:void(0)" ng-click="vm1.menuClicked(menuItem, entry)">{{menuItem}}</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </div>
+    </tbody>
+  </table>
+  <pagination boundary-links="true" max-size="8" items-per-page="vm1.itemsPerPage" total-items="vm1.filterLength"
+              ng-model="vm1.currentPage" ng-change="vm1.pageChanged()"></pagination>
+</section>
+
+

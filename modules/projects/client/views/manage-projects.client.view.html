@@ -1,0 +1,135 @@
+<h2>Sprint Management for Project {{vm.project.name}}</h2>
+<button type="button" class="btn btn-primary btn-sm" ng-click="vm.openSprintDetailModal()">Create New Sprint</button>
+<div class="list-group">
+  <search-table menu-callback="vm.sprintsMenuCallback" titles="vm.valuesTitles" entries="vm.displayedValues"
+                menu-item-labels="['Remove']"></search-table>
+</div>
+
+<a class="btn btn-secondary btn-sm" data-ui-sref="projects.view({ projectId: vm.project._id })">Back to Project</a>
+
+<div class="panel-body">
+  <script type="text/ng-template" id="manageSprint.html">
+    <div class="modal-header">
+      <h4 class="modal-title">Sprint Management</h4>
+    </div>
+    <div class="modal-body">
+      <form name="vm.form.sprintManagementForm">
+        <div class="form-horizontal">
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="startDate">Sprint Start Date</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <input autofocus name="startDate" id="startDate" type="text" class="form-control"
+                       uib-datepicker-popup="{{vm.format}}"
+                       ng-model="vm.sprint.startDate"
+                       is-open="vm.isCalendarOpen" datepicker-options="dateOptions" ng-required="true"
+                       close-text="Close"
+                       alt-input-formats="vm.altInputFormats"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+              </div>
+              <div ng-messages="vm.form.sprintManagementForm.startDate.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Sprint start date is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="storyPoints">Actual Story Points <span
+              class="tooltip-help ssticon ssticon-help hidden-print"
+              title="The number of story points completed by this squad on this project"></span></label>
+            <div class="col-sm-8">
+              <input name="storypPoints" type="number" ng-model="vm.sprint.actualStoryPoints" id="storyPoints"
+                     class="form-control"
+                     required>
+              <div ng-messages="vm.form.sprintManagementForm.storyPoints.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Story points is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="squad">Sprint Squad</label>
+            <div class="col-sm-8">
+              <select autofocus name="squad" id="squad" ng-model="vm.squad" class="form-control"
+                      ng-change="vm.squadChanged()"
+                      ng-options="squad.listName for squad in vm.squads track by squad._id">
+                <option value="">---Please select---</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="allocatedSquadPercentage">Squad allocation <span
+              class="tooltip-help ssticon ssticon-help hidden-print"
+              title="The percentage of the squad allocated to the project"></span></label>
+            <div class="col-sm-8">
+              <input name="allocatedSquadPercentage" type="number" ng-model="vm.sprint.allocatedSquadPercentage"
+                     id="allocatedSquadPercentage"
+                     class="form-control"
+                     ng-change="vm.calculateSquadCost()"
+                     required>
+              <div ng-messages="vm.form.sprintManagementForm.allocatedSquadPercentage.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Squad allocation is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="sprintDuration">Sprint Duration (days)</label>
+            <div class="col-sm-8">
+              <input ng-change="vm.durationChanged()" name="sprintDuration" type="number"
+                     ng-model="vm.sprint.sprintDuration"
+                     id="sprintDuration" class="form-control" required>
+              <div ng-messages="vm.form.sprintManagementForm.sprintDuration.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Sprint duration is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="loadedSquadCost">Loaded Squad Cost ($)</label>
+            <div class="col-sm-8">
+              <input name="loadedSquadCost" type="number" ng-model="vm.sprint.loadedSquadCost" id="loadedSquadCost"
+                     class="form-control"
+                     required>
+              <div ng-messages="vm.form.sprintManagementForm.loadedSquadCost.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Loaded squad cost</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="status">Project Risk Status <span
+              class="tooltip-help ssticon ssticon-help hidden-print"
+              title="How has this sprint altered the overall project risk"></span></label>
+            <div class="col-sm-8">
+              <select required name="status" id="status" ng-model="vm.sprint.riskStatus" class="form-control"
+              <option value="">---Please select ---</option>
+              <option value="green">Green</option>
+              <option value="orange">Orange</option>
+              <option value="red">Red</option>
+              </select>
+              <div ng-messages="vm.form.sprintManagementForm.riskStatus.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Project risk status is required</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="riskStatusNotes">Risk Status Notes</label>
+            <div class="col-sm-8">
+              <input name="riskStatusNotes" type="text"
+                     ng-model="vm.sprint.riskStatusNotes"
+                     id="riskStatusNotes" class="form-control" required>
+            </div>
+          </div>
+          <div class="buttons-action">
+            <button class="btn btn-primary btn-sm" ng-click="confirmSprint(vm.form.sprintManagementForm.$valid)">
+              Confirm Sprint
+            </button>
+            <button class="btn btn-secondary btn-sm" ng-click="cancel()">Cancel</button>
+          </div>
+          <div ng-show="vm.error" class="text-danger">
+            <strong ng-bind="vm.error"></strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </script>
+</div>

@@ -1,0 +1,114 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.cost._id ? 'Edit Cost' : 'New Cost'}}</h1>
+  </div>
+  <div class="col-md-6">
+    <form name="vm.form.costForm" class="form-horizontal" ng-submit="vm.save(vm.form.costForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.cost.name" id="name" class="form-control"
+                 placeholder="Name"
+                 required>
+          <div ng-messages="vm.form.costForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Cost name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnit">Business Unit</label>
+          <select name="businessUnit" id="businessUnit" ng-model="vm.cost.businessUnit" class="form-control"
+                  required ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.costForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Comment</label>
+          <input name="comment" type="text" ng-model="vm.cost.comment" id="comment" class="form-control"
+                 placeholder="Comment">
+          <div ng-messages="vm.form.costForm.comment.$error" role="alert">
+            <p class="help-block error-text" ng-message="required"></p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="amount">Amount</label>
+          <input autofocus name="amount" type="number" ng-model="vm.cost.forecastSeries.amount" id="amount"
+                 class="form-control"
+                 required>
+          <div ng-messages="vm.form.costForm.amount.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Opportunity amount is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="costStartDate">Start Date</label>
+          <div class="input-group">
+            <input name="costStartDate" id="costStartDate" type="text" class="form-control"
+                   uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.cost.forecastSeries.date"
+                   is-open="vm.isCalendarOpen" ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.costForm.costStartDate.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Cost start date is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="repeatSelect">Repeat</label>
+          <select name="repeatSelect" id="repeatSelect" ng-model="vm.cost.forecastSeries.repeat"
+                  class="form-control"
+                  required>
+            <option value="once">Once only</option>
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="half yearly">Half Yearly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <div ng-messages="vm.form.costForm.repeatSelect.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Repeat option is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="probability">Probability</label>
+          <input name="probability" type="text" ng-model="vm.cost.probability" id="probability"
+                 class="form-control" placeholder="100" required>
+          <div ng-messages="vm.form.costForm.probability.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Probability is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="term">Contract Term</label>
+          <select name="term" id="term" ng-model="vm.cost.contractPeriod" class="form-control"
+                  required ng-options="term.contractTerm for term in vm.contractTerms track by term._id">
+            <option value="">---Please select Term (years)---</option>
+          </select>
+          <div ng-messages="vm.form.costForm.term.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Term is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="overhead">Overhead Cost</label>
+          <input name="overhead" type="checkbox" ng-model="vm.cost.overhead" id="overhead"
+                 class="form-control">
+        </div>
+        <div class="form-group" ng-if="!vm.cost._id">
+          <label class="control-label" for="autoAllocate">Auto Allocate</label>
+          <input name="autoAllocate" type="checkbox" ng-model="vm.cost.autoAllocate" id="autoAllocate"
+                 class="form-control">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-primary">{{vm.cost._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

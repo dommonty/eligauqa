@@ -1,0 +1,52 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.businessunit._id ? 'Edit Business Unit' : 'New Business Unit'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.businessunitForm" class="form-horizontal" ng-submit="vm.save(vm.form.businessunitForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.businessunit.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.businessunitForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="companySelect">Select Company</label>
+          <select name="companySelect" id="companySelect" ng-model="vm.businessunit.company" class="form-control"
+                  required ng-options="company as company.name  for company in vm.companies track by company._id">
+          </select>
+          <div ng-messages="vm.form.businessunitForm.companySelect.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Company name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="companyOverheadCost">Select Company Overhead Cost</label>
+          <select name="companyOverheadCost" id="companyOverheadCost" ng-model="vm.businessunit.companyOverheadCost"
+                  class="form-control"
+                  ng-options="cost as cost.name + ' (' + cost.businessUnit.name + ')'  for cost in vm.costs track by cost._id">
+            <option value="">---Please select---</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnitOverheadCost">Select Business Unit Overhead Cost</label>
+          <select name="businessUnitOverheadCost" id="businessUnitOverheadCost"
+                  ng-model="vm.businessunit.businessUnitOverheadCost" class="form-control"
+                  ng-options="cost as cost.name  for cost in vm.costs track by cost._id">
+            <option value="">---Please select ---</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.businessunit._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
+

@@ -1,0 +1,14 @@
+<section>
+  <h1>Outcome teams and squads</h1>
+  <div class="page-header">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select ng-change="vm.businessUnitChanged()" name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+    </div>
+  </div>
+
+  <div  id="employee-chart-container"></div>
+</section>

@@ -1,0 +1,50 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.outcometeam._id ? 'Edit Outcome Team' : 'New Outcome Team'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.outcometeamForm" class="form-horizontal" ng-submit="vm.save(vm.form.outcometeamForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.outcometeam.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.outcometeamForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Outcome Team name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnit">Business Unit</label>
+          <select name="businessUnit" id="businessUnit" ng-model="vm.outcometeam.businessUnit" class="form-control"
+                  required ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.outcometeamForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="outcomeOwner">Outcome Owner</label>
+          <input
+            uib-typeahead="employee as employee.name for employee in vm.employees  | filter:$viewValue | limitTo:8"
+            name="outcomeOwner" id="outcomeOwner" ng-model="vm.outcometeam.outcomeOwner" class="form-control"
+            required>
+          </input>
+          <div ng-messages="vm.form.outcometeamForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Outcome owner is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-primary">{{vm.outcometeam._id ? 'Update' : 'Create'}}
+          </button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
+
+

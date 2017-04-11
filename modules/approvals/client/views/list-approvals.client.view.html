@@ -1,0 +1,27 @@
+<section>
+  <div class="page-header">
+    <h1>Approvals</h1>
+    <h2>Quote: {{vm.quote.name}}</h2>
+    <h2>Customer: {{vm.quote.customer.name}}</h2>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="approval in vm.approvals"
+       data-ui-sref="approvals.view({ approvalId: approval._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="approval.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="approval.user" data-ng-bind="approval.user.displayName"></span>
+        <span data-ng-if="!approval.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading">Status: {{approval.status}}</h4>
+      <h4 class="list-group-item-heading">Due by: {{approval.dueBy | date :mediumDate}}</h4>
+      <h4 class="list-group-item-heading">Description: {{approval.description}}</h4>
+      <h4 class="list-group-item-heading">Approver: {{approval.approver.name}}</h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center">
+    <a data-ui-sref="approvals.create"><b>Request a new approval</b></a>
+  </div>
+</section>

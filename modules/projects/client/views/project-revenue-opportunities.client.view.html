@@ -1,0 +1,26 @@
+<section>
+  <div class="page-header">
+    <h1>Project Opportunity Revenues</h1>
+    <h3>Project Name: {{vm.project.name}}</h3>
+    <h3>Outcome Team: {{vm.project.outcomeTeam.name}}</h3>
+  </div>
+  <div ng-show="!vm.showAddNewOpportunity">
+    <h3>Linked Project Opportunities</h3>
+    <search-table menu-callback="vm.opportunityRevenueListMenuCallback" titles="vm.opportunityRevenueListTitles"
+                  entries="vm.opportunityRevenueDisplayedValues"
+                  menu-item-labels="['Remove']"></search-table>
+  </div>
+
+
+  <a  ng-show="!vm.showAddNewOpportunity"class="btn btn-secondary btn-sm" ui-sref="projects.view({projectId: vm.project._id})">Back to project view</a>
+  <button  ng-show="!vm.showAddNewOpportunity"class="btn btn-primary btn-sm" ng-click="vm.addNewOpportunityClicked()">Add New Opportunity</button>
+  <button  ng-show="vm.showAddNewOpportunity" class="btn btn-primary btn-sm" ng-click="vm.closeAddNewOpportunitClicked()">Close</button>
+  <div ng-show="vm.showAddNewOpportunity">
+    <h3>Opportunities Selection</h3>
+    <search-table menu-callback="vm.opportunityListMenuCallback" titles="vm.opportunityListTitles"
+                  entries="vm.allOpportunitiesDisplayedValues"
+                  menu-item-labels="['Add to Linked Opportunities']"
+                  view-link-callback="vm.selectOpportunity"></search-table>
+  </div>
+</section>
+

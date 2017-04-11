@@ -1,0 +1,44 @@
+<section>
+  <div class="page-header">
+    <h2>{{vm.opportunitynote._id ? 'Edit Opportunity note' : 'New Opportunity note'}} for {{vm.opportunity.name}}
+      ({{vm.opportunity.customer.name}})</h2>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.opportunitynoteForm" class="form-horizontal"
+          ng-submit="vm.save(vm.form.opportunitynoteForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="title">Title</label>
+          <input autofocus name="title" type="text" ng-model="vm.opportunitynote.title" id="title" class="form-control"
+                 placeholder="Title"
+                 required>
+          <div ng-messages="vm.form.opportunitynoteForm.title.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Title is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <textarea autofocus rows="4" type="text" name="name" ng-model="vm.opportunitynote.note" id="note"
+                    class="form-control" required
+                    placeholder="Enter text ...">
+          </textarea>
+          <div ng-messages="vm.form.opportunitynoteForm.note.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Opportunity note is required.</p>
+          </div>
+        </div>
+        <!--<div text-angular ng-model="vm.opportunitynote.note"></div>-->
+        <div class="form-group">
+          <label class="control-label" for="significant">Significant</label>
+          <input name="significant" type="checkbox" ng-model="vm.opportunitynote.significant" id="significant"
+                 class="form-control">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.opportunitynote._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
+

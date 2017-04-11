@@ -1,0 +1,16 @@
+<section>
+  <h1>Customers' Annual Revenues</h1>
+  <h3>Shows customers with 100% annuities only</h3>
+  <div class="page-header">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select ng-change="vm.businessUnitChanged()" name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+      <img  class="pull-right" ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+    </div>
+  </div>
+
+  <div  id="customers-annuity-chart-container"></div>
+</section>

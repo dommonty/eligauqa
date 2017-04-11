@@ -1,0 +1,65 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.squad._id ? 'Edit Squad' : 'New Squad'}}</h1>
+  </div>
+  <div class="col-md-4">
+    <form name="vm.form.squadForm" class="form-horizontal" ng-submit="vm.save(vm.form.squadForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.squad.name" id="name" class="form-control" placeholder="Name"
+                 required>
+          <div ng-messages="vm.form.squadForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Squad name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="created">Squad formation date</label>
+            <div class="input-group">
+              <input name="created" id="created" type="text" class="form-control"
+                     uib-datepicker-popup="{{vm.format}}"
+                     ng-model="vm.squad.created"
+                     is-open="vm.isCalendarOpen"
+                     ng-required="true"
+                     close-text="Close"
+                     alt-input-formats="vm.altInputFormats"/>
+              <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+            </div>
+            <div ng-messages="vm.form.squadForm.created.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Date squad was formed is required.</p>
+            </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="outcomeTeam">Outcome Team</label>
+          <select name="outcomeTeam" id="outcomeTeam" ng-model="vm.squad.outcomeTeam" class="form-control"
+                  required ng-options="ot as ot.name + ' (' + ot.businessUnit.name + ')' for ot in vm.outcomeTeams track by ot._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.squadForm.outcomeTeam.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Outcome team is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="squadOwner">Squad Owner</label>
+          <input
+            uib-typeahead="employee as employee.name for employee in vm.employees  | filter:$viewValue | limitTo:8"
+            name="squadOwner" id="squadOwner" ng-model="vm.squad.squadOwner" class="form-control"
+            required>
+          </input>
+          <div ng-messages="vm.form.squadForm.squadOwner.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Squad owner is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-primary">{{vm.squad._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

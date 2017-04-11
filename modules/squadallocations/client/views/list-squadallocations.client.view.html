@@ -1,0 +1,23 @@
+<section>
+  <div class="page-header">
+    <h2>Squad Allocations for {{vm.employee.name}}</h2>
+  </div>
+  <div class="list-group col-md-6">
+    <a data-ng-repeat="squadallocation in vm.squadallocations"
+       data-ui-sref="squadallocations.view({ squadallocationId: squadallocation._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="squadallocation.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="squadallocation.user" data-ng-bind="squadallocation.user.displayName"></span>
+        <span data-ng-if="!squadallocation.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="squadallocation.squad.name"></h4>
+      <h4 class="list-group-item-heading">{{squadallocation.allocation}}%</h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" >
+     <a data-ui-sref="squadallocations.create">New Squad Allocation</a>?
+  </div>
+</section>

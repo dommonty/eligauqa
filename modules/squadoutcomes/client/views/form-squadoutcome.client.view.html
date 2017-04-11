@@ -1,0 +1,80 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.squadoutcome._id ? 'Edit Squadoutcome' : 'New Squad Outcome'}} for {{vm.squadoutcome.squad.name}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.squadoutcomeForm" class="form-horizontal" ng-submit="vm.save(vm.form.squadoutcomeForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.squadoutcome.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.squadoutcomeForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Squadoutcome name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Description</label>
+          <textarea name="description" type="text" ng-model="vm.squadoutcome.description" id="description"
+                    class="form-control" rows="4">
+            </textarea>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessPeriod">Business Period</label>
+          <select name="businessPeriod" id="businessPeriod" ng-model="vm.squadoutcome.businessPeriod"
+                  class="form-control"
+                  required ng-options="period.periodDescription for period in vm.periods track by period._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.squadoutcomeForm.businessPeriod.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business period is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Measurement unit <span
+            class="tooltip-help ssticon ssticon-help hidden-print"
+            title="Optional field to help measure the outcome.  e.g. story points or dollars"></span></label>
+          <input name="measurementUnit" type="text" ng-model="vm.squadoutcome.measurementUnit" id="measurementUnit"
+                 class="form-control"
+                 placeholder="e.g Story points or $">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Target <span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                               title="Target set to achieve for this outcome based on the measurement unit"></span></label>
+          <input name="target" type="text" ng-model="vm.squadoutcome.target" id="target"
+                 class="form-control"
+                 placeholder="">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="actual">Actual <span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                                 title="How much of the target has been achieved"></span></label>
+          <input name="actual" type="text" ng-model="vm.squadoutcome.actual" id="actual"
+                 class="form-control"
+                 placeholder="">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="core">Core<span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                            title="check this box if this outcome must be worked on by all squad members"></span></label>
+          <input name="core" type="checkbox" ng-model="vm.squadoutcome.core" id="core"
+                 class="form-control">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="core">Used for scoring<span
+            class="tooltip-help ssticon ssticon-help hidden-print"
+            title="check this box if this outcome will be used to calculate the review score"></span></label>
+          <input name="core" type="checkbox" ng-model="vm.squadoutcome.usedForScoring" id="usedForScoring"
+                 class="form-control">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-primary">{{vm.squadoutcome._id ? 'Update' : 'Create'}}
+          </button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div ng-show="vm.squadoutcome.target>0" id="targetvsactualsquadoutcomechart"></div>
+</section>

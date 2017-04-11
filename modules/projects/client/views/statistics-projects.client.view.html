@@ -1,0 +1,37 @@
+<section>
+  <div class="page-header">
+    <h2>Squads Statistics by Project</h2>
+  </div>
+  <span class="row">
+       <div class="form-group col-md-3" style="margin-top: 2em">
+      <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id"
+              ng-change="vm.businessUnitChanged()">
+        <option value="">--All Business Units--</option>
+      </select>
+    </div>
+  </span>
+  <span class="row">
+    <div ng-show="vm.projects && vm.projects.length > 0" class="row">
+    <div ng-repeat="project in vm.projects" class="col-xs-4">
+      <div class="panel panel-default" ng-class="{
+      'panel-danger': !project.latestSprint || project.latestSprint.actualStoryPoints < project.plannedVelocity,
+      'panel-success': project.latestSprint.actualStoryPoints > project.plannedVelocity,
+      'panel-warning': project.latestSprint.actualStoryPoints === project.plannedVelocity
+      }">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{project.latestSprint.squadName?project.latestSprint.squadName:'No squad yet allocated'}}</h3>
+        </div>
+        <div class="panel-body">
+          <b>{{project.name.substring(0,40)}}</b>
+          <h1 style="text-align: center;">{{project.plannedVelocity}}</h1>
+          <p style="text-align: center;"><span style="text-decoration: underline;">Planned Velocity</span></p>
+          <h1 style="text-align: center;">{{project.latestSprint? project.latestSprint.actualStoryPoints : 0}}</h1>
+          <p style="text-align: center;"><span style="text-decoration: underline;">Latest Velocity</span></p>
+        </div>
+      </div>
+    </div>
+  </div></span>
+</section>
+
+

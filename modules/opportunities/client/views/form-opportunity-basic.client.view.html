@@ -1,0 +1,92 @@
+<section>
+
+  <div class="col-md-12">
+    <fieldset>
+      <div class="form-group" show-errors>
+        <label for="customerSelect">Customer</label>
+        <select autofocus name="customerSelect" id="customerSelect" ng-model="vm.opportunity.customer"
+                class="form-control"
+                required ng-options="customer.name for customer in vm.customers track by customer._id">
+          <option value="">---Please select---</option>
+        </select>
+        <div ng-messages="vm.form.businessunitForm.customerSelect.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Customer name is required.</p>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label class="control-label" for="name">Opportunity Name</label>
+        <input name="name" type="text" ng-model="vm.opportunity.name" id="name" class="form-control" placeholder="Name"
+               required>
+        <div ng-messages="vm.form.opportunityForm.name.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Opportunity name is required.</p>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label for="owner">Owner</label>
+        <select name="owner" id="owner" ng-model="vm.opportunity.owner" class="form-control"
+                ng-options="owner.displayName for owner in vm.users track by owner._id">
+          <option value="">---Please select---</option>
+        </select>
+      </div>
+      <div class="form-group" show-errors>
+        <label class="control-label" for="description">Description</label>
+        <input name="description" type="text" ng-model="vm.opportunity.description" id="description"
+               class="form-control" placeholder="Description">
+      </div>
+
+      <div class="form-group" show-errors>
+        <label for="businessUnit">Business Unit</label>
+        <select name="businessUnit" id="businessUnit" ng-model="vm.opportunity.businessUnit" class="form-control"
+                required ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+          <option value="">---Please select---</option>
+        </select>
+        <div ng-messages="vm.form.businessunitForm.businessUnit.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label class="control-label" for="probability">Probability</label>
+        <input name="probability" type="text" ng-model="vm.opportunity.probability" id="probability"
+               class="form-control" placeholder="60" required>
+        <div ng-messages="vm.form.opportunityForm.probability.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Probability is required.</p>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label for="product">Product</label>
+        <select required name="product" id="product" ng-model="vm.opportunity.includedProduct" class="form-control"
+                ng-options="product.name for product in vm.products track by product._id">
+          <option value="">---Please select---</option>
+        </select>
+        <div ng-messages="vm.form.opportunityForm.product.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Product selection is required.</p>
+        </div>
+      </div>
+      <div ng-if="vm.opportunity.probability===100" class="form-group">
+        <label class="control-label" for="atRisk">At Risk<span
+          class="tooltip-help ssticon ssticon-help hidden-print"
+          title="check this box if the contract is at risk"></span></label>
+        <input name="atRisk" type="checkbox" ng-model="vm.opportunity.atRisk" id="atRisk"
+               class="form-control">
+      </div>
+      <div ng-if="vm.opportunity.atRisk"class="form-group" show-errors>
+        <label class="control-label" for="description">At Risk Description</label>
+        <input name="atRiskDescription" type="text" ng-model="vm.opportunity.atRiskDescription" id="atRiskDescription"
+               class="form-control" placeholder="At Risk Description">
+      </div>
+      <div class="form-group" show-errors>
+        <label for="term">Term</label>
+        <select name="term" id="term" ng-model="vm.opportunity.contractPeriod" class="form-control"
+                required ng-options="term.contractTerm for term in vm.contractTerms track by term._id">
+          <option value="">---Please select---</option>
+        </select>
+        <div ng-messages="vm.form.businessunitForm.term.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Term is required.</p>
+        </div>
+      </div>
+      <div ng-show="vm.error" class="text-danger">
+        <strong ng-bind="vm.error"></strong>
+      </div>
+    </fieldset>
+  </div>
+</section>

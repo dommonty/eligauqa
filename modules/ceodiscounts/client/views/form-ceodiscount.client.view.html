@@ -1,0 +1,24 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.ceodiscount._id ? 'Edit CEO Discount' : 'New CEO Discount'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.ceodiscountForm" class="form-horizontal" ng-submit="vm.save(vm.form.ceodiscountForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="discount">Discount %</label>
+          <input name="discount" type="text" ng-model="vm.ceodiscount.discount" id="discount" class="form-control" placeholder="0" required>
+          <div ng-messages="vm.form.ceodiscountForm.discount.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Ceo discount  is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.ceodiscount._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

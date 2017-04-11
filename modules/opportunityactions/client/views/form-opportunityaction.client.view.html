@@ -1,0 +1,79 @@
+<section>
+  <div class="page-header">
+    <h2>{{vm.opportunityaction._id ? 'Edit Action' : 'New Action'}} for {{vm.opportunity.opportunityDisplay}}</h2>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.opportunityactionForm" class="form-horizontal"
+          ng-submit="vm.save(vm.form.opportunityactionForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.opportunityaction.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.opportunityactionForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Opportunityaction name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Description</label>
+          <input name="description" type="text" ng-model="vm.opportunityaction.description" id="description"
+                 class="form-control" placeholder="Description">
+        </div>
+        <div class="form-group" show-errors>
+          <label for="status">Status</label>
+          <select name="status" id="status" ng-model="vm.opportunityaction.status" class="form-control" required>
+            <option value="">---Please select---</option>
+            <option value="open">Open</option>
+            <option value="in-progress">In progress</option>
+            <option value="closed">Closed</option>
+          </select>
+          <div ng-messages="vm.form.opportunityactionForm.status.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Status is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="Assignee">Assignee</label>
+          <select name="assignee" id="assignee" ng-model="vm.opportunityaction.assignee" class="form-control"
+                  ng-options="user.displayName for user in vm.users track by user._id" required>
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.opportunityactionForm.assignee.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Assignee is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="dueBy">Due by</label>
+          <div class="input-group">
+            <input name="dueBy" id="dueBy" type="text" class="form-control"
+                   uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.opportunityaction.dueBy"
+                   is-open="vm.isCalendarOpen"
+                   ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.opportunityactionForm.dueBy.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Due date is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="progress">Task progress</label>
+          <input autofocus name="progress" type="text" ng-model="vm.opportunityaction.progress" id="progress"
+                 class="form-control"
+                 placeholder="%" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.opportunityaction._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div ng-show="false" id="progresschart"></div>
+</section>

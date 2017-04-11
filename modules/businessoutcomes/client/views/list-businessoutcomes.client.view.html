@@ -1,0 +1,34 @@
+<section>
+  <div class="page-header">
+    <h1>Business Unit Outcomes for {{vm.businessUnit.name}}</h1>
+  </div>
+  <div class="form-group col-md-8">
+    <label for="businessPeriod">Filter by business Period</label>
+    <select name="businessPeriod" id="businessPeriod" ng-model="vm.businessPeriod"
+            class="form-control"
+            ng-change="vm.periodChanged()"
+            ng-options="period.periodDescription for period in vm.periods track by period._id">
+      <option value="">---Show all periods---</option>
+    </select>
+  </div>
+  <div class="list-group col-md-8">
+    <a data-ng-repeat="businessoutcome in vm.filteredItems"
+       data-ui-sref="businessoutcomes.view(
+       { businessoutcomeId: businessoutcome._id,
+        businessunitId: vm.businessUnit._id})"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="businessoutcome.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="businessoutcome.user" data-ng-bind="businessoutcome.user.displayName"></span>
+        <span data-ng-if="!businessoutcome.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="businessoutcome.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center col-md-4">
+    <a data-ui-sref="businessoutcomes.create({ businessunitId: vm.businessUnit._id })">New Business Unit
+      Outcome</a>?
+  </div>
+</section>

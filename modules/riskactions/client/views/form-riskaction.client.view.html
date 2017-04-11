@@ -1,0 +1,94 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.riskaction._id ? 'Edit Risk Action' : 'New Risk Action'}}</h1>
+    <div ng-class="vm.classForCustomer(vm.customer)"><h1>Risk: {{vm.customer.riskRating}}</h1></div>
+    <h2>{{vm.customer.name}}</h2>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.riskactionForm" class="form-horizontal" ng-submit="vm.save(vm.form.riskactionForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Risk Name</label>
+          <input name="name" type="text" ng-model="vm.riskaction.name" id="name" class="form-control" placeholder="Name"
+                 required>
+          <div ng-messages="vm.form.riskactionForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Risk Description</label>
+          <input name="description" type="text" ng-model="vm.riskaction.description" id="description"
+                 class="form-control"
+                 placeholder="Description" required>
+          <div ng-messages="vm.form.riskactionForm.description.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action description is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Risk Mitigation</label>
+          <input name="mitigation" type="text" ng-model="vm.riskaction.mitigation" id="mitigation" class="form-control"
+                 placeholder="Mitigation" required>
+          <div ng-messages="vm.form.riskactionForm.mitigation.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action mitigation is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="owner">Owner</label>
+          <select name="owner" id="owner" ng-model="vm.riskaction.owner" class="form-control" required
+                  ng-options="owner.displayName for owner in vm.users track by owner._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.riskactionForm.owner.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action owner is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="owner">Risk Action Status</label>
+          <select name="status" id="status" ng-model="vm.riskaction.status" class="form-control" required
+          <option value="">---Please select---</option>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="in-progress">In Progress</option>
+          </select>
+          <div ng-messages="vm.form.riskactionForm.status.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action status is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="dueBy">Due by</label>
+          <div class="input-group">
+            <input name="dueBy" id="dueBy" type="text" class="form-control"
+                   uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.riskaction.dueBy"
+                   is-open="vm.isCalendarOpen"
+                   ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.riskactionForm.dueBy.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Due date is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Progress</label>
+          <input name="progress" type="text" ng-model="vm.riskaction.progress" id="progress" class="form-control"
+                 placeholder="Progress %" required>
+          <div ng-messages="vm.form.riskactionForm.progress.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Risk action progress is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.riskaction._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

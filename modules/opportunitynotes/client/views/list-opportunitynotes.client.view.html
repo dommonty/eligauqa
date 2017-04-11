@@ -1,0 +1,42 @@
+<section>
+  <div class="page-header">
+    <h2>Opportunity Notes for {{vm.opportunity.name}} ({{vm.opportunity.customer.name}})</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-8" style="margin-top: 2em">
+      <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search"
+             ng-change="vm.figureOutItemsToDisplay()"/>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2em">
+    <div class="list-group col-md-12">
+      <a data-ng-repeat="opportunitynote in vm.pagedItems"
+         data-ui-sref="opportunitynotes.view({ opportunitynoteId: opportunitynote._id })"
+         class="list-group-item">
+        <small class="list-group-item-text">
+          Posted on
+          <span data-ng-bind="opportunitynote.created | date:'mediumDate'"></span>
+          by
+          <span data-ng-if="opportunitynote.user" data-ng-bind="opportunitynote.user.displayName"></span>
+          <span data-ng-if="!opportunitynote.user">Deleted User</span>
+        </small>
+        <h4 ng-class="{'significant-note': opportunitynote.significant}"
+           data-ng-bind="opportunitynote.note"></h4>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <pagination class="col-md-8" boundary-links="true"
+                max-size="3"
+                items-per-page="vm.itemsPerPage"
+                total-items="vm.filterLength"
+                ng-model="vm.currentPage"
+                ng-change="vm.pageChanged()"></pagination>
+    <div class="alert alert-warning text-center col-md-4">
+      <a data-ui-sref="opportunitynotes.create"><b>Add New Note</b></a>
+    </div>
+  </div>
+
+
+
+</section>

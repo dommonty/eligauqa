@@ -1,0 +1,74 @@
+<section>
+  <h1>Business Unit Risk Report</h1>
+  <span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Select Business Unit</label>
+      <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+    </div>
+    <div class="col-md-3" style="margin-top: 4em">
+      <button ng-show="vm.businessUnit" class="btn btn-primary btn-sm"
+              ng-click="vm.businessUnitChanged()">Generate Report</button>
+       <img ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+       </div>
+
+    <div class="pull-right" style="margin-top: 4em">
+      <span><b>Legend</b></span>
+      <table class="display table dataTable table-formatting table-striped">
+        <tr>
+          <td class="label-major">Major</td>
+          <td>Annual Revenue > 10%</td>
+        </tr>
+            <tr>
+              <td class="label-moderate">Moderate</td>
+              <td>Annual Revenue between 5% and 10%</td>
+        </tr>
+            <tr>
+          <td class="label-minor">Minor</td>
+              <td>Annual Revenue < 5%</td>
+        </tr>
+        <tr>
+          <td colspan="2">Report filters opportunities at 100% with annuity revenue ONLY</td>
+        </tr>
+         <tr>
+          <td colspan="2">Customer is at risk if contract term is 1 year or less or opportunity flagged as at risk</td>
+        </tr>
+      </table>
+    </div>
+
+  </span>
+
+  <table ng-if="vm.customersAtRisk.length > 0"
+         class="display table dataTable table-formatting table-striped" id="team-table"
+         aria-describedby="team-table_info">
+    <thead>
+    <th>Customer</th>
+    <th>Risk Rating</th>
+    <th>Annual Revenue At Risk</th>
+    <th>Contribution share</th>
+    <th>Actions</th>
+    </thead>
+    <tr ng-repeat="customer in vm.customersAtRisk | orderBy: 'riskRating' ">
+      <td>{{customer.name}}</td>
+      <td ng-class="vm.classForCustomer(customer)">{{customer.riskRating}}</td>
+      <td>{{customer.annualRevenue | currency :'$' :0}}</td>
+      <td>{{customer.contributionShare}}%</td>
+      <td><a data-ui-sref="riskactions.list({customerId: customer._id, businessUnitId: vm.businessUnit._id})">Risk
+        Register</a></td>
+    </tr>
+
+  </table>
+  <div ng-if="vm.reportGenerated && vm.customersAtRisk.length === 0" class="alert alert-success text-center">No
+    customers at risk
+  </div>
+  <hr/>
+
+  <div ng-if="vm.customersAtRisk" ng-json-export-excel separator="," data="vm.risksToExport" report-fields="vm.reportHeader" filename="'sst-risk-report'" class="btn btn-secondary btn-sm">Export to Excel</div>
+
+</section>
+
+
+
+

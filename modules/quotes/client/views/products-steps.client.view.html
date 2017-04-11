@@ -1,0 +1,48 @@
+<div class="page" ng-if="vm.supportPlan && vm.contractPeriod">
+  <section class="panel panel-default">
+    <div class="callout callout-success pull-right">
+      <h4>Total</h4>
+      <p>Discounted: {{vm.totalDiscountedPrice | currency}}</p>
+      <p>RRP: {{vm.totalPrice | currency}}</p>
+    </div>
+    <div ng-repeat="product in vm.quote.includedProducts">
+      <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span>
+        <a ng-click="vm.toggleCollapse(product)">{{product.name}}</a></strong>
+      </div>
+      <div uib-collapse="vm.isCollapsed(product)">
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th></th>
+                <th>Feature Description</th>
+                <th>Discounted Price</th>
+                <th>Recommended Retail Price</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="item in vm.quotedItemsForProduct(product)">
+                <td>
+                  <div class="checkbox form-group">
+                    <label>
+                      <input ng-change="vm.featureCheckBoxChanged()" type="checkbox" name="optionsCheckbox"
+                             ng-model="item.included">
+                    </label>
+                  </div>
+                </td>
+                <td>{{item.featureName}}</td>
+                <td>{{vm.discountedPrice(item.featurePrice) | currency}}</td>
+                <td>{{vm.priceWithSupport(item.featurePrice) | currency}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+

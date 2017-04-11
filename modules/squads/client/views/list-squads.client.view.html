@@ -1,0 +1,27 @@
+<div class="page-header">
+  <h1>Squads</h1>
+</div>
+<span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+        <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+                ng-options="bu.name for bu in vm.businessUnits track by bu._id"
+                ng-change="vm.businessUnitChanged()">
+          <option value="">--All Business Units--</option>
+        </select>
+      </div>
+  <div class="form-group col-md-3" style="margin-top: 2em">
+    <select ng-change="vm.outcomeTeamChanged()" name="outcomeTeam" id="outcomeTeam" ng-model="vm.outcomeTeam"
+            class="form-control"
+            ng-options="ot.name for ot in vm.outcomeTeams track by ot._id">
+      <option value="">---Select an outcome team---</option>
+    </select>
+  </div>
+    <img ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+  </span>
+
+<section>
+  <search-table menu-callback="vm.squadListMenuCallback" titles="vm.squadListTitles"
+                entries="vm.displayedValues"
+                menu-item-labels="['View', 'Edit']"
+                view-link-callback="vm.openSquadView"></search-table>
+</section>

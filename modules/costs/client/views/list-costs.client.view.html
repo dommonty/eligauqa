@@ -1,0 +1,28 @@
+<section>
+<span class="row">
+  <div class="page-header">
+    <h1>Costs</h1>
+        <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select ng-change="vm.businessUnitChanged()" name="businessUnit" id="businessUnit" ng-model="vm.businessUnit"
+              class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+      <img class="pull-right" ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+    </div>
+  </div>
+  </span>
+  <search-table menu-callback="vm.costListMenuCallback" titles="vm.costListTitles"
+                entries="vm.displayedValues"
+                menu-item-labels="['View', 'Edit']"
+                ls-key="costSearch"
+                view-link-callback="vm.openCostView"></search-table>
+
+  <div ng-if="vm.displayedValues.length" ng-json-export-excel separator="," data="vm.actualCostValues"
+       report-fields="vm.actualsTemplateHeader" filename="'sst-actual-cost-template'" class="btn btn-secondary btn-sm">
+    Export Actuals Cost Template
+  </div>
+</section>
+
+

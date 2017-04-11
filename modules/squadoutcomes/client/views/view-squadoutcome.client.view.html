@@ -1,0 +1,31 @@
+<section>
+  <div class="page-header">
+    <h1>Squad Outcome</h1>
+    <h2 data-ng-bind="vm.squadoutcome.name"></h2>
+    <h2>{{vm.squadoutcome.businessPeriod.periodDescription}} ({{vm.squadoutcome.businessPeriod.periodFrom | date
+      :medium}} - {{vm.squadoutcome.businessPeriod.periodTo | date :medium}})</h2>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.squadoutcome.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="vm.squadoutcome.user"
+              data-ng-bind="vm.squadoutcome.user.displayName"></span>
+        <span data-ng-if="!vm.squadoutcome.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.squadoutcome.isCurrentUserOwner || vm.authentication.user.isUser">
+    <a class="btn btn-primary"
+       data-ui-sref="squadoutcomes.edit({ squadoutcomeId: vm.squadoutcome._id, squadId: vm.squadoutcome.squad._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <h4>Outcome Description</h4>
+  <p>{{vm.squadoutcome.description}}</p>
+  <div ng-show="vm.squadoutcome.target>0" id="targetvsactualsquadoutcomechart"></div>
+</section>

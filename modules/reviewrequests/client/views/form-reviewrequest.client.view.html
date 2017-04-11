@@ -1,0 +1,92 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.reviewrequest._id ? 'Edit squad member outcome review request' : 'New squad member outcome review request'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.reviewrequestForm" class="form-horizontal" ng-submit="vm.save(vm.form.reviewrequestForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Review Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.reviewrequest.name" id="name" class="form-control"
+                 placeholder="E.g. Ever Green Sprint 5 and 6 review" required>
+          <div ng-messages="vm.form.reviewrequestForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Review request name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="reviewer">Reviewer</label>
+          <select required name="reviewer" id="reviewer" ng-model="vm.reviewrequest.reviewer" class="form-control"
+                  ng-options="reviewer.name for reviewer in vm.reviewers track by reviewer._id">
+            <option value="">---Please select ---</option>
+          </select>
+          <div ng-messages="vm.form.reviewrequestForm.reviewer.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Reviewer is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="reviewee">Reviewee</label>
+          <input required
+                 uib-typeahead="reviewee as reviewee.name for reviewee in vm.reviewees  | filter:$viewValue | limitTo:8"
+                 name="reviewee" id="reviewee" ng-model="vm.reviewrequest.reviewee" class="form-control"
+                 typeahead-on-select="vm.revieweeSelected()">
+          </input>
+          <div ng-messages="vm.form.reviewrequestForm.reviewee.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Reviewee is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="squad">Squad Reviewed <span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                  title="The review will be based on the outcomes defined in the selected squad"></span></label>
+          <select required name="squad" id="squad" ng-model="vm.reviewrequest.outcomeSquad" class="form-control"
+                  ng-options="squad.name for squad in vm.squads track by squad._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.reviewrequestForm.outcomeSquad.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Outcome squad is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessPeriod">Business Period</label>
+          <select name="businessPeriod" id="businessPeriod" ng-model="vm.reviewrequest.businessPeriod"
+                  class="form-control"
+                  required ng-options="period.periodDescription for period in vm.periods track by period._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.reviewrequestForm.businessPeriod.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business period is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="dueBy">Review due by date</label>
+          <div class="input-group">
+            <input name="dueBy" id="dueBy" type="text" class="form-control"
+                   uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.reviewrequest.dueBy"
+                   is-open="vm.isCalendarOpen2"
+                   ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar2()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.reviewrequestForm.dueBy.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Due by date is required.</p>
+          </div>
+        </div>
+        <div ng-messages="vm.form.reviewrequestForm.periodTo.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Period to date is required.</p>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.reviewrequest._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

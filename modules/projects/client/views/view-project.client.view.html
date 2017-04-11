@@ -1,0 +1,137 @@
+<section>
+  <div class="page-header">
+    <h1> Agile Project Management </h1>
+    <h2>{{vm.project.name}}</h2>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.project.isCurrentUserOwner || vm.authentication.user.isUser">
+    <a class="btn btn-primary"
+       data-ui-sref="projects.manage({ projectId: vm.project._id })">
+      Manage Sprints
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="projects.revenues({ projectId: vm.project._id })">
+      Linked Opportunities
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="projects.edit({ projectId: vm.project._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+    <br>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.project.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="vm.project.user"
+              data-ng-bind="vm.project.user.displayName"></span>
+        <span data-ng-if="!vm.project.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+
+  <div class="col-md-6">
+    <table class="display table dataTable table-formatting table-striped">
+      <tbody>
+      <tr>
+        <td><b>Customer</b></td>
+        <td>{{vm.project.customer.name}}</td>
+      </tr>
+      <tr>
+        <td><b>Project Type</b></td>
+        <td>{{vm.project.projectTypeDescription}}</td>
+      </tr>
+      <tr ng-show="vm.project.projectType ==='r&d'">
+        <td><b>Advisory Committee Approval Date</b></td>
+        <td>{{vm.project.advisoryCommitteeApprovalDate | date:mediumDate}}</td>
+      </tr>
+      <tr>
+        <td><b>Outcome Team</b></td>
+        <td>{{vm.project.outcomeTeam.name}}</td>
+      </tr>
+      <tr>
+        <td><b>Project Status</b></td>
+        <td>{{vm.project.status}}</td>
+      </tr>
+      <tr>
+        <td><b>Project Budget</b></td>
+        <td>{{vm.project.budget | currency :'$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Total Anticipated Revenue</b></td>
+        <td>{{vm.project.totalAnticipatedRevenue | currency :'$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Forecasted Cost</b></td>
+        <td>{{vm.project.projectForecastCost | currency : '$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Forecast Project Profit</b></td>
+        <td ng-class="{'negative-amount': vm.project.projectForecastProfitability < 0}">
+          {{vm.project.projectForecastProfitability | currency : '$'
+          :0}}
+        </td>
+      </tr>
+      <tr>
+        <td><b>Current Project Spending</b></td>
+        <td>{{vm.project.actualLoadedCost | currency : '$' :0}}</td>
+      </tr>
+      <tr>
+      <tr>
+        <td><b>Cost Per Story Point</b></td>
+        <td>{{vm.project.costPerStoryPoint | currency : '$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Estimated End Date</b></td>
+        <td>{{vm.project.projectForecastEndDate | date :fullDate}}</td>
+      </tr>
+      <tr>
+        <td><b>Original End Date</b></td>
+        <td>{{vm.project.endDate | date :fullDate}}</td>
+      </tr>
+      <tr>
+        <td><b>Estimated Story Points</b></td>
+        <td>{{vm.project.estimatedStoryPoints}}</td>
+      </tr>
+      <tr>
+        <td><b>Completed story points</b></td>
+        <td>{{vm.project.storyPointsCompleted | number:0}}</td>
+      </tr>
+      <tr>
+      <tr>
+        <td><b>Remaining story points</b></td>
+        <td>{{vm.project.remainingStoryPoints | number: 0}}</td>
+      </tr>
+      <tr>
+        <td><b>Number of completed Sprints</b></td>
+        <td>{{vm.project.sprints.length}}</td>
+      </tr>
+      <tr>
+        <td><b>Average Velocity</b></td>
+        <td>{{vm.project.averageVelocity}}</td>
+      </tr>
+      <tr>
+        <td><b>Estimated Sprints Left</b></td>
+        <td>{{vm.project.estimatedSprintsLeft}}</td>
+      </tr>
+      <tr ng-if="vm.project.confluence">
+        <td><b>Confluence</b></td>
+        <td><a href="{{vm.project.confluence}}" target="_blank">{{vm.project.confluence}}</a></td>
+      </tr>
+      <tr ng-if="vm.project.jira">
+        <td><b>Jira</b></td>
+        <td><a href="{{vm.project.jira}}" target="_blank">{{vm.project.jira}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <div id="burndown-container"></div>
+  </div>
+
+</section>
+
+

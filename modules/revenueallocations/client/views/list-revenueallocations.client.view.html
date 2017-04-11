@@ -1,0 +1,23 @@
+<section>
+  <div class="page-header">
+    <h1>Revenue Allocations for product {{vm.product.name}}</h1>
+  </div>
+  <div class="list-group col-md-6">
+    <a data-ng-repeat="revenueallocation in vm.revenueallocations"
+       data-ui-sref="revenueallocations.view({ revenueallocationId: revenueallocation._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="revenueallocation.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="revenueallocation.user" data-ng-bind="revenueallocation.user.displayName"></span>
+        <span data-ng-if="!revenueallocation.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="revenueallocation.squad.name"></h4>
+      <h4>{{revenueallocation.allocation}}%</h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center">
+    <a data-ui-sref="revenueallocations.create({productId: vm.product._id})">Create New Revenue Allocation</a>?
+  </div>
+</section>

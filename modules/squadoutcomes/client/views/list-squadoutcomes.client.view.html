@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h3>Outcomes for {{vm.squad.name}} squad team</h3>
+  </div>
+  <div class="list-group col-md-8">
+    <a data-ng-repeat="squadoutcome in vm.squadoutcomes"
+       data-ui-sref="squadoutcomes.view({ squadoutcomeId: squadoutcome._id, squadId: vm.squad._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="squadoutcome.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="squadoutcome.user" data-ng-bind="squadoutcome.user.displayName"></span>
+        <span data-ng-if="!squadoutcome.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="squadoutcome.name"></h4>
+    </a>
+  </div>
+  <div data-ng-show="vm.authentication.user.isUser" class="alert  text-center col-md-4">
+    <a data-ui-sref="squadoutcomes.create({squadId: vm.squad._id})">New Outcome</a>?
+  </div>
+</section>

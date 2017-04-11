@@ -1,0 +1,34 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.supportplan._id ? 'Edit Support Plan' : 'New Support Plan'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.supportplanForm" ng-submit="vm.save(vm.form.supportplanForm.$valid)" novalidate>
+      <div class="row">
+        <div class="form-group col-xs-6" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.supportplan.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.supportplanForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Support plan name is required.</p>
+          </div>
+        </div>
+        <div class="form-group col-xs-6" show-errors>
+          <label class="control-label" for="premium">Premium Percentage</label>
+          <input name="premium" type="text" ng-model="vm.supportplan.premium" id="premium" class="form-control"
+                 required>
+          <div ng-messages="vm.form.supportplanForm.premium.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Support plan premium is required.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">{{vm.supportplan._id ? 'Update' : 'Create'}}</button>
+      </div>
+      <div ng-show="vm.error" class="text-danger">
+        <strong ng-bind="vm.error"></strong>
+      </div>
+    </form>
+  </div>
+</section>
+

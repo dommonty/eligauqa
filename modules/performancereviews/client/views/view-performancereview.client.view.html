@@ -1,0 +1,52 @@
+<section>
+  <div class="page-header">
+    <h1>Outcome review</h1>
+    <h2 data-ng-bind="vm.performancereview.name"></h2>
+    <h2>Who is being reviewed: {{vm.performancereview.request.reviewee.name}}</h2>
+    <h2>Feedback prepared by: {{vm.performancereview.assignee.displayName}}</h2>
+    <h2>Review period: {{vm.performancereview.request.businessPeriod.periodDescription}}
+      ({{vm.performancereview.request.businessPeriod.periodFrom | date :medium}} -
+      {{vm.performancereview.request.businessPeriod.periodTo | date :medium}})</h2>
+    <h2>Allocated reviewer: {{vm.performancereview.request.reviewer.name}}</h2>
+    <h2>Review status: {{vm.performancereview.request.statusDescription}}</h2>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.performancereview.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.performancereview.user"
+            data-ng-bind="vm.performancereview.user.displayName"></span>
+      <span data-ng-if="!vm.performancereview.user">Deleted User</span>
+    </em>
+  </small>
+  <div class="pull-right">
+    <a ng-show="vm.canSubmit()" class="btn btn-primary" data-ng-click="vm.submitReview()">
+      Submit Review
+    </a>
+    <a ng-show="vm.canEdit()" class="btn btn-secondary"
+       data-ui-sref="performancereviews.edit({ performancereviewId: vm.performancereview._id })">
+      Prepare feedback
+    </a>
+    <a ng-show="vm.viewOnly()" class="btn btn-secondary"
+       data-ui-sref="performancereviews.edit({ performancereviewId: vm.performancereview._id })">
+      View feedback form
+    </a>
+    <a ng-show="vm.canViewRevieweeFeedback() && vm.revieweeReview" class="btn btn-secondary"
+       data-ui-sref="performancereviews.edit({ performancereviewId: vm.revieweeReview._id})">
+      View reviewee feedback form
+    </a>
+    <a ng-show="vm.canEdit()" class="btn btn" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+
+  <p class="lead" data-ng-bind="vm.performancereview.content"></p>
+  <div ng-show="vm.error" class="text-danger">
+    <strong ng-bind="vm.error"></strong>
+  </div>
+  <div ng-show="vm.message" class="text-success">
+    <strong ng-bind="vm.message"></strong>
+  </div>
+
+</section>

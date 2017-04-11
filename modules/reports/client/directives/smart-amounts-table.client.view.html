@@ -1,0 +1,134 @@
+<section>
+  <div class="page-header">
+  <span class="row">
+      <div class="form-group col-md-4" style="margin-top: 2em">
+              <div class="input-group">
+                <input autofocus name="opportunityDate" id="opportunityDate" placeholder="Start Date" type="text"
+                       class="form-control" uib-datepicker-popup="{{format}}"
+                       ng-model="vm1.startDate"
+                       is-open="vm1.isCalendarOpen" datepicker-options="dateOptions"
+                       close-text="Close"
+                       alt-input-formats="altInputFormats"
+                       ng-change="vm1.setDateChanged()"
+                />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm1.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+              </div>
+          </div>
+            <div class="col-md-2" style="margin-top: 2em">
+            <select class="form-control col-md-3" type="text" ng-model="vm1.monthsForward"
+                    ng-options="monthNumber for monthNumber in [1,2,3,4,5,6,7,8,9,10,11,12]"
+                    ng-change="vm1.setDateChanged()"> </select>
+              </select>
+          </div>
+    <img ng-show="vm1.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+    </span>
+    <span class="row">
+
+
+               <div class="form-group col-md-3" style="margin-top: 2em">
+        <select name="businessUnit" id="businessUnit" ng-model="vm1.businessUnit" class="form-control"
+                ng-change="vm1.setDateChanged()"
+                ng-options="bu.name for bu in vm1.businessUnits track by bu._id">
+          <option value="">--All Business Units--</option>
+        </select>
+
+      </div>
+
+                 <div class="col-md-2" style="margin-top: 2em">
+            <input class="form-control col-md-3" type="text" ng-model="vm1.greaterThanProbability"
+                   placeholder=">= Probability >="
+                   ng-change="vm1.setDateChanged()" type="Number"/>
+          </div>
+                <div class="col-md-2" style="margin-top: 2em">
+            <input class="form-control col-md-3" type="text" ng-model="vm1.lessThanProbability"
+                   placeholder="<= Probability >="
+                   ng-change="vm1.setDateChanged()" type="Number"/>
+          </div>
+              <div class="col-md-2" style="margin-top: 2em">
+              <select name="repeatSelect" id="repeatSelect" ng-model="vm1.repeat"
+                      class="form-control" ng-change="vm1.setDateChanged()"
+                      ng-options="option.description for option in vm1.repeatOptions">
+                <option value="">--All repeats--</option>
+              </select>
+            </div>
+
+               <div class="col-md-3" style="margin-top: 2em">
+            <input class="form-control col-md-3" type="text" ng-model="vm1.search" placeholder="Search"
+                   ng-change="vm1.setDateChanged()"/>
+          </div>
+          </span>
+
+  </div>
+  <button ng-show="vm1.pagedItems.length > 0" class="pull-right btn btn-secondary btn-sm" type="button" ng-click="vm1.toggleChart()">
+    <i ng-if="!vm1.showChart" class="glyphicon glyphicon-picture"></i>
+    <i ng-if="vm1.showChart" class="glyphicon glyphicon-font"></i>
+  </button>
+  <div ng-show="!vm1.showChart">
+    <table class="display table dataTable table-formatting table-striped report" id="dynamic-table"
+           aria-describedby="dynamic-table_info">
+      <thead>
+      <tr role="row">
+        <th ng-repeat="title in vm1.titles">
+          <div class="th">{{title}}</div>
+        </th>
+        <th>
+          <div class="th">Total</div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--storedObject is a placeholder to keep the object used to populate the table-->
+      <!--it is not used by the directive-->
+      <div ng-if="vm1.pagedItems.length">
+        <tr ng-if="entry.series['99999'] !=='$0'" ng-repeat="entry in vm1.pagedItems track by $index">
+          <td ng-if="key !=='_id'  && key !== '99999' && !entry.header"
+              ng-repeat="(key, value) in entry.series track by $index">
+            <div ng-if="entry.bold"><b>{{value}}</b></div>
+            <div ng-class="{'prior-month': vm1.displayMonthIsPriorToToday(key)}" ng-if="!entry.bold"> {{value}}
+            </div>
+          </td>
+          </td>
+          <td colspan="13" ng-if="entry.header">
+            <div><b>{{entry.series[0]}}</b></div>
+          </td>
+          <td>
+            <div><b>{{entry.series['99999']}}</b></div>
+          </td>
+          <td>
+            <div ng-show="vm1.menuItemLabels && entry._id" class="dropdown" uib-dropdown>
+              <span class="ssticon ssticon-more-vertical" uib-dropdown-toggle></span>
+              <ul class="dropdown-menu dropdown-right-aligned" role="menu" uib-dropdown-menu>
+                <li ng-repeat="menuItem in vm1.menuItemLabels track by $index">
+                  <a href="javascript:void(0)" ng-click="vm1.menuClicked(menuItem, entry)">{{menuItem}}</a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </div>
+      <tr ng-if="!vm1.search">
+        <td><b>Total</b></td>
+        <td ng-repeat="(key, value) in vm1.monthsTotals track by $index"><b>{{value | currency :$ :0}}</b></td>
+        <td><b>{{vm1.grandTotal | currency :$ :0}}</b></td>
+      </tr>
+      <tr ng-if="!vm1.search">
+        <td><b>Cumulative Total</b></td>
+        <td ng-repeat="(key, value) in vm1.cumulativeMonthsTotals track by $index"><b>{{value | currency :$ :0}}</b>
+        </td>
+        <td><b>{{vm1.grandTotal | currency :$ :0}}</b></td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination boundary-links="true" max-size="8" items-per-page="vm1.itemsPerPage" total-items="vm1.filterLength"
+                ng-model="vm1.currentPage" ng-change="vm1.pageChanged()"></pagination>
+  </div>
+  <div ng-show="!vm1.pagedItems.length || vm1.pagedItems.length === 0" class="alert alert-success text-center">
+    Nothing to display. Please change filter selections
+  </div>
+
+</section>
+
+

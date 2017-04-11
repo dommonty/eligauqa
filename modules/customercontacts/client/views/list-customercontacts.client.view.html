@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h2>Contacts for {{vm.customer.name}}</h2>
+  </div>
+  <div class="list-group col-md-8">
+    <a data-ng-repeat="customercontact in vm.customercontacts"
+       data-ui-sref="customercontacts.view({ customercontactId: customercontact._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="customercontact.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="customercontact.user" data-ng-bind="customercontact.user.displayName"></span>
+        <span data-ng-if="!customercontact.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="customercontact.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center col-md-4">
+    <a data-ui-sref="customercontacts.create"><b>Add New Customer Contact</b></a>?
+  </div>
+</section>

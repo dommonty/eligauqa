@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <h1>Quote Approval</h1>
+    <a data-ui-sref="quotes.view({quoteId: vm.quote._id})"><h2>{{vm.quote.name}}</h2></a>
+    <h2>Customer: {{vm.quote.customer.name}}</h2>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.approval.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="vm.approval.user"
+              data-ng-bind="vm.approval.user.displayName"></span>
+        <span data-ng-if="!vm.approval.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+  <div ng-if="vm.approval.status.key !== 'rejected' && vm.approval.status.key !== 'sentToCustomer'" class="pull-right"
+       data-ng-show="vm.approval.isCurrentUserOwner || vm.authentication.user.isUser">
+    <a class="btn btn-primary"
+       data-ui-sref="quotes.view({quoteId: vm.quote._id})">
+      View Quote Detail
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="approvals.edit({ approvalId: vm.approval._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+
+  <h4 class="list-group-item-heading">Status: {{vm.approval.status.description}}</h4>
+  <h4 class="list-group-item-heading">Due by: {{vm.approval.dueBy | date :mediumDate}}</h4>
+  <h4 class="list-group-item-heading">Description: {{vm.approval.description}}</h4>
+  <h4 class="list-group-item-heading">Approver: {{vm.approval.approver.name}}</h4>
+</section>

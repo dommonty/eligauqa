@@ -1,0 +1,23 @@
+.prior-month {
+    background:#ccc;
+}
+
+.table.report tr td div {
+    padding: 6px;
+}
+.table.report>tbody>tr>td{
+    padding: 0;
+}
+
+.label-major {
+    background: darkred !important;
+    color: white;
+}
+
+.label-moderate {
+    background: orange !important;
+}
+
+.label-minor {
+    background: yellow !important;
+}

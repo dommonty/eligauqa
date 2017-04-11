@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Business Units</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="businessunit in vm.businessunits"
+       data-ui-sref="businessunits.view({ businessunitId: businessunit._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="businessunit.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="businessunit.user" data-ng-bind="businessunit.user.displayName"></span>
+        <span data-ng-if="!businessunit.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="businessunit.name"></h4>
+    </a>
+  </div>
+  <div class=" text-center" data-ng-if="vm.businessunits.$resolved && !vm.businessunits.length">
+    No Businessunits yet, why don't you <a data-ui-sref="businessunits.create">create one</a>?
+  </div>
+</section>

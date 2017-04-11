@@ -1,0 +1,29 @@
+<section>
+  <div class="page-header">
+    <h1>Opportunities</h1>
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select ng-change="vm.businessUnitChanged()" name="businessUnit" id="businessUnit" ng-model="vm.businessUnit"
+              class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+      <img class="pull-right" ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+    </div>
+  </div>
+  <br>
+
+  <span class="row">
+<search-table menu-callback="vm.opportunityListMenuCallback" titles="vm.opportunityListTitles"
+              entries="vm.displayedValues"
+              menu-item-labels="['View', 'Edit']"
+              ls-key="opportunitySearch"
+              view-link-callback="vm.openOpportunityView"></search-table>
+
+  </span>
+
+  <div ng-if="vm.displayedValues.length" ng-json-export-excel separator="," data="vm.opportunitiesForActualTemplate"
+       report-fields="vm.actualsTemplateHeader" filename="'sst-actual-opportunities-template'" class="btn btn-secondary btn-sm">
+    Export Actuals Opportunity Template
+  </div>
+</section>

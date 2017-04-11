@@ -1,0 +1,11 @@
+<section>
+  <div class="page-header">
+    <h1>Quotes</h1>
+  </div>
+  <div class="list-group" ng-if="vm.displayedQuotes.length">
+    <search-table menu-callback="vm.quotesMenuCallback" titles="vm.quoteTitles" entries="vm.displayedQuotes"
+                  menu-item-labels="['View Quote', 'Approvals']"></search-table>
+  </div>
+
+</section>
+

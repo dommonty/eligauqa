@@ -1,0 +1,113 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.product._id ? 'Edit Product' : 'New Product'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.productForm" class="form-horizontal" ng-submit="vm.save(vm.form.productForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Product Name</label>
+          <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="Name"
+                 required>
+          <div ng-messages="vm.form.productForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Product name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnit">Business Unit</label>
+          <select name="businessUnit" id="businessUnit" ng-model="vm.product.businessUnit" class="form-control"
+                  required ng-change="vm.updateSquadsList()"
+                  ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.productForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+          </div>
+        </div>
+        <div ng-if="vm.product.businessUnit && vm.squads.length > 0" class="form-group" show-errors>
+          <label for="squad">Maintenance Squad</label>
+          <select name="squad" id="squad" ng-model="vm.product.maintenanceSquad" class="form-control"
+                  ng-options="squad.listName for squad in vm.squads track by squad._id">
+            <option value="">---Please select---</option>
+          </select>
+        </div>
+        <div ng-if="!vm.product.priceDeterminant" class="form-group">
+          <label for="priceDeterminant">Price Determinant</label>
+          <select id="priceDeterminant" class="form-control" ng-model="vm.product.priceDeterminant">
+            <option value="registeredUsers">Number of registered customers</option>
+            <option value="numberOfApplications">Number of successful applications</option>
+            <option value="numberOfInternalUsers">Number of internal users</option>
+          </select>
+        </div>
+        <button ng-show="!vm.tableInitialised && vm.product.priceDeterminant" type="button"
+                ng-click="vm.buildPricingTables()" class="btn btn-primary btn-sm">Create Price Structure
+        </button>
+        <div ng-if="vm.product.priceDeterminant && vm.tableInitialised">
+          <div class="form-group">
+            <label class="control-label">1. Specify tier levels and pricing (Core product)</label>
+            <div class="panel-body">
+              <button type="button" id="addData" class="btn btn-success btn-sm" ng-click="vm.addRow()">Add New Tier
+              </button>
+              <button type="button" id="removeFirstRow" class="btn btn-success btn-sm"
+                      ng-click="vm.removeSelectedTier()"
+                      confirm="Are you sure?">
+                Remove Selected Tier
+              </button>
+              <button type="button" id="resetProduct" class="btn btn-success btn-sm" ng-click="vm.reset()">Reset
+              </button>
+              <button type="button" id="calculateTotalPrice" class="btn btn-success btn-sm"
+                      ng-click="vm.calculateTotalPrice()">Calculate
+              </button>
+              <div ui-grid="vm.priceGridOptions" ui-grid-selection ui-grid-edit class="grid"></div>
+            </div>
+          </div>
+          <div ng-if="vm.showFeatures" class="form-group">
+            <label class="control-label">3. Specify {{vm.selectedTier.tierName}} optional features pricing</label>
+            <div class="panel-body">
+              <button type="button" id="reset" class="btn btn-success btn-sm" ng-click="vm.resetFeatures()"
+                      confirm="All features for this tier will be replaced from the template, proceed?">Reset all
+                features
+              </button>
+              <button type="button" id="updateFeatures" class="btn btn-success btn-sm" ng-click="vm.updateFeatures()"
+                      confirm="New features will be imported from the template, proceed?">Update from feature template
+              </button>
+              <button type="button" id="calculate" class="btn btn-success btn-sm"
+                      ng-click="vm.calculateFeaturePrices()">Calculate Pricing
+              </button>
+              <button ng-show="vm.selectedFeature" type="button" id="deleteSelectedRow" class="btn btn-success btn-sm"
+                      ng-click="vm.deleteSelectedFeature()"
+                      confirm="Are you sure?">Delete Selected Feature
+              </button>
+
+              <div ui-grid="vm.featureGridOptions" ui-grid-selection ui-grid-edit class="grid"></div>
+            </div>
+          </div>
+          <div ng-if="!vm.showFeatures" class="form-group">
+            <label class="control-label">2. Define product template for optional features and percentage cost</label>
+            <div class="panel-body">
+              <button type="button" id="addFeatureDefinitionData" class="btn btn-success btn-sm"
+                      ng-click="vm.addFeatureDefinitionRow()">Add New Product Feature
+              </button>
+              <button ng-show="vm.selectedTemplateFeature" type="button" id="removeFeatureDefinitionFirstRow"
+                      class="btn btn-success btn-sm"
+                      confirm="Are you sure?"
+                      ng-click="vm.removeSelectedTemplateFeature()">
+                Remove Selected Product Template Feature
+              </button>
+              <div ui-grid="vm.featureDefinitionOptions" ui-grid-selection ui-grid-edit class="grid"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+          </div>
+          <button type="submit" class="btn btn-secondary">{{vm.product._id ? 'Update' : 'Create'}}</button>
+          <button type="button" ui-sref="products.list" class="btn btn-primary">Cancel</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+
+  </div>
+</section>

@@ -1,0 +1,113 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.employee._id ? 'Edit Employee' : 'New Employee'}}</h1>
+  </div>
+  <div class="col-md-4">
+    <form name="vm.form.employeeForm" class="form-horizontal" ng-submit="vm.save(vm.form.employeeForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.employee.name" id="name" class="form-control"
+                 placeholder="Name" required>
+          <div ng-messages="vm.form.employeeForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Employee name is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="nickName">Nick Name</label>
+          <input autofocus name="nickName" type="text" ng-model="vm.employee.nickName" id="nickName"
+                 class="form-control"
+                 placeholder="Nick Name">
+        </div>
+        <div class="form-group" show-errors>
+          <label for="roleSelect">Main Role</label>
+          <select name="roleSelect" id="roleSelect" ng-model="vm.employee.role"
+                  class="form-control"
+                  required ng-options="role.name for role in vm.roles track by role._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.employeeForm.roleSelect.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Role is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="otherRoleSelect">Other Role</label>
+          <select name="otherRoleSelect" id="otherRoleSelect" ng-model="vm.employee.otherRole"
+                  class="form-control"
+                  ng-options="role.name for role in vm.roles track by role._id">
+            <option value="">---Please select---</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Yearly Cost to Company</label>
+          <input name="yearlySalary" type="text" ng-model="vm.employee.salary" id="yearlySalary" class="form-control"
+                 placeholder="$" required>
+          <div ng-messages="vm.form.employeeForm.yearlySalary.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Yearly Salary is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="locationSelect">Location</label>
+          <select name="locationSelect" id="locationSelect" ng-model="vm.employee.location"
+                  class="form-control"
+                  required ng-options="location.name for location in vm.locations track by location._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.employeeForm.locationSelect.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Location is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnit">Business Unit</label>
+          <select name="businessUnit" id="businessUnit" ng-model="vm.employee.businessUnit" class="form-control"
+                  ng-change="vm.setSquadSelections()" required
+                  ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.employeeForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="systemUser">System User</label>
+          <input
+            uib-typeahead="user as user.displayName for user in vm.users  | filter:$viewValue | limitTo:8"
+            name="systemUser" id="systemUser" ng-model="vm.employee.systemUser" class="form-control">
+          </input>
+        </div>
+        <div ng-if="vm.managers && vm.managers.length" class="form-group" show-errors>
+          <label for="reportingManager">Reporting Manager<span class="tooltip-help ssticon ssticon-help hidden-print"
+                                                               title="Applicable in cases when the employee is allocated to multiple squads"></span></label>
+          <select name="reportingManager" id="reportingManager" ng-model="vm.employee.reportingManager"
+                  class="form-control"
+                  ng-options="manager.name for manager in vm.managers track by manager._id">
+            <option value="">---Please select ---</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="reviewer">Reviewer<span
+            class="tooltip-help ssticon ssticon-help hidden-print"
+            title="check this box if this employee can perform performance reviews"></span></label>
+          <input name="reviewer" type="checkbox" ng-model="vm.employee.reviewer" id="reviewer"
+                 class="form-control">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Quote Estimate Authority Level <span
+            class="tooltip-help ssticon ssticon-help hidden-print"
+            title="The authority level in dollars to which this employee is authorised to approve customer quotes"></span></label>
+          </label>
+          <input name="quoteEstimateAuthorityLevel" type="text" ng-model="vm.employee.quoteEstimateAuthorityLevel"
+                 id="quoteEstimateAuthorityLevel" class="form-control"
+                 placeholder="$" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-primary">{{vm.employee._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

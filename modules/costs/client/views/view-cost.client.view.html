@@ -1,0 +1,44 @@
+<section>
+  <div class="page-header">
+    <h1>Cost Detail</h1>
+    <h2 data-ng-bind="vm.cost.name"></h2>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.cost.created | date:'mediumDate'"></span>
+        by
+      <span data-ng-if="vm.cost.user"
+            data-ng-bind="vm.cost.user.displayName"></span>
+        <span data-ng-if="!vm.cost.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.cost.isCurrentUserOwner || vm.authentication.user.isAdmin">
+    <a class="btn btn-primary"
+       data-ui-sref="costallocations.list({ costId: vm.cost._id })">
+      Cost Allocations
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="costs.edit({ costId: vm.cost._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-6">
+    <table class="display table dataTable table-formatting table-striped">
+      <tbody>
+      <tr>
+        <td><b>Total Cost</b></td>
+        <td>{{vm.cost.totalCost | currency :'$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Allocated Cost</b></td>
+        <td>{{vm.cost.allocatedCost | currency: '$' :0}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

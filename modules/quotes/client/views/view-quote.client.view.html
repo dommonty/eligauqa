@@ -1,0 +1,135 @@
+<section>
+  <div class="page-header">
+    <h1> Quote prepared for: {{vm.quote.customer.name}}</h1>
+    <h3 data-ng-bind="vm.quote.name"></h3>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.quote.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="vm.quote.user"
+              data-ng-bind="vm.quote.user.displayName"></span>
+        <span data-ng-if="!vm.quote.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+
+  <h3>Supporting Detail</h3>
+  <table class="display table dataTable table-formatting table-striped">
+    <tr>
+      <td>
+        <b>Quotation date</b>
+      </td>
+      <td>
+        {{vm.quote.created | date:mediumDate}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Sandstone client representative</b>
+      </td>
+      <td>
+        {{vm.quote.accountOwner.displayName}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Quote prepared by</b>
+      </td>
+      <td>
+        {{vm.quote.user.displayName}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Number of end users</b>
+      </td>
+      <td>
+        {{vm.quote.maxNumberOfCustomers | number :0}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Currency</b>
+      </td>
+      <td>
+        {{vm.quote.currency.name}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Support plan</b>
+      </td>
+      <td>
+        {{vm.quote.supportPlan.name}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Contract term</b>
+      </td>
+      <td>
+        {{vm.quote.contractPeriod.contractTerm}} years
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Package offer</b>
+      </td>
+      <td>
+        {{vm.quote.packageOffer.name}}
+      </td>
+    </tr>
+  </table>
+
+  <h3>Pricing Detail (Annual)</h3>
+  <table class="display table dataTable table-formatting table-striped">
+    <thead>
+    <th>Product Name</th>
+    <th>Feature Name</th>
+    <th>Price (RRP)</th>
+    <th>Discounted Price</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="quotedItem in vm.quote.quotedItems | filter : {included: true} | orderBy: '-featurePrice'">
+      <td>
+        {{quotedItem.productName}}
+      </td>
+      <td>
+        {{quotedItem.featureName}}
+      </td>
+      <td>
+        {{quotedItem.featurePrice| currency :$ :0 }}
+      </td>
+      <td>
+        {{vm.discountedPrice(quotedItem.featurePrice) | currency :$ :0}}
+      </td>
+    </tr>
+
+    </tr>
+    <tr>
+      <td><b>Total Price</b></td>
+      <td>
+      </td>
+      <td><b>{{vm.quote.totalPrice | currency :$ :0}}</b></td>
+      <td><b>{{vm.discountedPrice(vm.quote.totalPrice) | currency :$ :0}}</b></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pull-right"
+       data-ng-show="vm.quote.isCurrentUserOwner || vm.authentication.user.isAdmin">
+    <a class="btn btn-primary"
+       data-ui-sref="quotes.edit({ quoteId: vm.quote._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+
+  <div>
+    <h4>Quote Notes</h4>
+    {{vm.quote.notes}}
+  </div>
+</section>

@@ -1,0 +1,37 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.revenueallocation._id ? 'Edit Revenue Allocation' : 'New Revenue Allocation'}} for product
+      {{vm.product.name}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.revenueallocationForm" class="form-horizontal"
+          ng-submit="vm.save(vm.form.revenueallocationForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label for="squad">Squad</label>
+          <select autofocus name="squad" id="squad" ng-model="vm.revenueallocation.squad" class="form-control"
+                  ng-options="squad.listName for squad in vm.squads track by squad._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.revenueallocationForm.squad.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Squad selection is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="allocation">Allocation percentage</label>
+          <input name="allocation" type="number" ng-model="vm.revenueallocation.allocation" id="allocation"
+                 class="form-control" placeholder="Allocation" required>
+          <div ng-messages="vm.form.revenueallocation.allocation.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Allocation is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.revenueallocation._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

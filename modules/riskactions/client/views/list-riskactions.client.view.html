@@ -1,0 +1,14 @@
+<section>
+  <div class="page-header">
+    <div ng-class="vm.classForCustomer(vm.customer)"><h1>Risk: {{vm.customer.riskRating}}</h1></div>
+    <h2>{{vm.customer.name}}</h2>
+    <h3>Risk Management Actions</h3>
+
+  </div>
+  <search-table menu-callback="vm.riskActionMenuCallback" titles="vm.riskActionsTitles"
+                entries="vm.displayedValues"
+                menu-item-labels="['View', 'Edit']"></search-table>
+  <div class="alert alert-success text-center">
+    <a data-ui-sref="riskactions.create({customerId: vm.customer._id})"><b>create New Risk Management Action</b></a>
+  </div>
+</section>

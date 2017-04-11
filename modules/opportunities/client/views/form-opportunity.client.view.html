@@ -1,0 +1,20 @@
+<h2>{{vm.opportunity._id ? 'Edit Opportunity' : 'New Opportunity'}}</h2>
+<form name="vm.form.opportunityForm" ng-submit="vm.save(vm.form.opportunityForm.$valid)" novalidate>
+  <wizard on-finish="vm.finishWizard()" template="modules/opportunities/client/views/wizard.html">
+    <wz-step wz-title="Basic Detail">
+
+      <ng-include src="'modules/opportunities/client/views/form-opportunity-basic.client.view.html'"></ng-include>
+      <div class="">
+        <button type="button" ng-disabled="vm.form.opportunityForm.$invalid" wz-next
+                class="btn btn-primary submit-button btn-sm">Next
+        </button>
+      </div>
+    </wz-step>
+    <wz-step wz-title="Opportunity Values">
+      <ng-include src="'modules/opportunities/client/views/form-opportunity-values.client.view.html'"></ng-include>
+      <button type="submit" ng-disabled="vm.form.opportunityForm.$invalid"
+              class="btn btn-primary submit-button">{{vm.opportunity._id ? 'Update' : 'Create'}}
+      </button>
+    </wz-step>
+  </wizard>
+</form>

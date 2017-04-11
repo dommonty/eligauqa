@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Support Plans</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="supportplan in vm.supportplans"
+       data-ui-sref="supportplans.view({ supportplanId: supportplan._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="supportplan.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="supportplan.user" data-ng-bind="supportplan.user.displayName"></span>
+        <span data-ng-if="!supportplan.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="supportplan.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.supportplans.$resolved && !vm.supportplans.length">
+    No Supportplans yet, why don't you <a data-ui-sref="supportplans.create">create one</a>?
+  </div>
+</section>

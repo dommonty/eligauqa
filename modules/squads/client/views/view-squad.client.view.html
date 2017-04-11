@@ -1,0 +1,36 @@
+<div>
+  <div class="page-header">
+    <h1 data-ng-bind="vm.squad.name"></h1>
+  </div>
+  <div class="pull-right">
+    <a data-ng-show="vm.squad.isCurrentUserOwner || vm.authentication.user.isUser" class="btn btn-primary"
+       data-ui-sref="squads.edit({ squadId: vm.squad._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="squadoutcomes.list({ squadId: vm.squad._id })">
+      Outcomes
+    </a>
+    <a data-ng-show="vm.squad.isCurrentUserOwner || vm.authentication.user.isUser" class="btn btn-primary"
+       data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.squad.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.squad.user"
+            data-ng-bind="vm.squad.user.displayName"></span>
+      <span data-ng-if="!vm.squad.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead"><b>Squad Owner: </b>{{vm.squad.squadOwner.name}}</p>
+  <div data-ng-show="vm.squad.isCurrentUserOwner || vm.authentication.user.isUser">
+    <p class="lead"><b>Base Squad Cost: </b>{{vm.squad.baseSquadCost | currency :$ :0}}</p>
+    <p class="lead"><b>Loaded Squad Cost: </b>{{vm.squad.loadedSquadCost | currency :$ :0}}</p>
+    <p class="lead"><b>Total Opportunity Value: </b>{{vm.squad.totalOpportunityValue | currency :$ :0}}</p>
+  </div>
+  </section>
+  </section>

@@ -1,0 +1,60 @@
+<section class="col-md-12">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Import employees for business unit: {{vm.businessunit.name}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <fieldset>
+        <div class="form-group">
+          <label for="locationSelect">Location</label>
+          <select name="locationSelect" id="locationSelect" ng-model="vm.location"
+                  class="form-control"
+                  required ng-options="location.name for location in vm.locations track by location._id">
+            <option value="">---Please select (all entries imported to same location)---</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="roleSelect">Main Role</label>
+          <select name="roleSelect" id="roleSelect" ng-model="vm.role"
+                  class="form-control"
+                  required ng-options="role.name for role in vm.roles track by role._id">
+            <option value="">---Please select (all entries imported with same role)---</option>
+          </select>
+        </div>
+        <div ng-show="vm.role && vm.location">
+          <ng-csv-import
+            class="import"
+            content="vm.csv.content"
+            header="vm.csv.header"
+            header-visible="vm.csv.headerVisible"
+            separator="vm.csv.separator"
+            separator-visible="vm.csv.separatorVisible"
+            result="vm.csv.result"
+            encoding="vm.csv.encoding"
+            encoding-visible="vm.csv.encodingVisible"
+            accept="vm.csv.accept"
+            upload-button-label="vm.csv.uploadButtonLabel"></ng-csv-import>
+          <br>
+          <button ng-show="vm.csv.result" class="btn btn-default btn-primary" ng-click="vm.uploadCSVEntries()">Import
+            Employees
+          </button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row">
+    <div ng-show="vm.success" class="text-center text-success">
+      <strong> Employee entries were uploaded successfully</strong>
+    </div>
+    <div ng-show="vm.error" class="text-center text-danger">
+      <strong ng-bind="vm.error"></strong>
+      <br>
+    </div>
+  </div>
+
+
+</section>

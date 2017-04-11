@@ -1,0 +1,12 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.packageoffering._id ? 'Edit Package Offering' : 'New Package Offering'}}</h1>
+  </div>
+
+  <formly-form form="vm.form.packageofferingForm" model="vm.packageoffering" fields="vm.packageOfferingFields">
+    <button type="submit" class="btn btn-default btn-sm btn-primary" ng-click="vm.save(vm.form.packageofferingForm.$valid)">Save</button>
+  </formly-form>
+  <div ng-show="vm.error" class="text-danger">
+    <strong ng-bind="vm.error"></strong>
+  </div>
+</section>

@@ -1,0 +1,55 @@
+<section>
+  <h1>Outcome Reviews Status Report</h1>
+  <span class="row">
+    <div class="form-group col-md-2" style="margin-top: 2em">
+      <label class="control-label">Review Period</label>
+      <select name="period" id="period" ng-model="vm.period" class="form-control"
+              ng-options="period.periodDescription for period in vm.periods track by period._id">
+        <option value="">--- Select Period ---</option>
+      </select>
+    </div>
+  </span>
+  <span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id"
+              ng-change="vm.businessUnitChanged()">
+        <option value="">--- Select Business Unit ---</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Outcome Teams</label>
+      <select name="outcomeTeam" id="outcomeTeam" ng-model="vm.outcomeTeam" class="form-control"
+              ng-options="ot.name for ot in vm.outcomeTeams track by ot._id"
+              ng-change="vm.outcomeTeamChanged()">
+        <option value="">--- Select Outcome Team---</option>
+      </select>
+    </div>
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Squads</label>
+      <select name="squad" id="squad" ng-model="vm.squad" class="form-control"
+              ng-options="squad.name for squad in vm.squads track by squad._id">
+        <option value="">--- Select Squad ---</option>
+      </select>
+    </div>
+
+    <div class="col-md-3" style="margin-top: 4em">
+      <button ng-show="vm.squad && vm.period" class="btn btn-secondary btn-sm"
+              ng-click="vm.generateReport()">Generate Report</button>
+    </div>
+  </span>
+
+  </div>
+
+  <span class="row">
+<search-table titles="vm.reportTitle"
+              entries="vm.reportEntries"
+              view-link-callback="vm.showReviewRequest"></search-table>
+
+  </span>
+</section>
+
+
+
+

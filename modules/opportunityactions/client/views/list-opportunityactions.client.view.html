@@ -1,0 +1,59 @@
+<section>
+  <div class="page-header">
+    <h2 ng-if="!vm.assigneeId">Opportunity actions for {{vm.opportunity.opportunityDisplay}}</h2>
+    <h2 ng-if="vm.assigneeId && !vm.showAllActions">My Opportunities Actions</h2>
+    <h2 ng-if="vm.assigneeId && vm.showAllActions">All Opportunities actions</h2>
+  </div>
+  <div style="margin-top: 2em">
+    <label>Hide closed actions</label>
+    <input type="checkbox" ng-model="vm.hideClosed"/>
+    <span ng-if="vm.assigneeId">
+      <label>Show all Actions</label>
+      <input type="checkbox" ng-model="vm.showAllActions" ng-change="vm.allActionsChanged()"/>
+    </span>
+  </div>
+
+  <div class="list-group" style="margin-top: 2em">
+    <a data-ng-repeat="opportunityaction in vm.opportunityactions | filter:vm.filterStatus"
+       data-ui-sref="opportunityactions.view({ opportunityactionId: opportunityaction._id,
+        opportunityId: opportunityaction.opportunity._id})"
+       class="list-group-item">
+      <table class="display table dataTable table-formatting table-striped">
+        <tbody>
+        <tr>
+          <td><b>Action Name</b></td>
+          <td>{{opportunityaction.name}}</td>
+          <td><b>Posted by</b></td>
+          <td>{{opportunityaction.user?opportunityaction.user.displayName:'Deleted User'}}</td>
+        </tr>
+        <tr>
+          <td><b>Posted on</b></td>
+          <td>{{opportunityaction.created | date:'mediumDate'}}</td>
+          <td><b>Assignee</b></td>
+          <td>{{opportunityaction.assignee.displayName}}</td>
+        </tr>
+        <tr>
+          <td><b>Due by</b></td>
+          <td>{{opportunityaction.dueBy | date:'mediumDate'}}</td>
+          <td><b>Status</b></td>
+          <td>{{opportunityaction.status}}</td>
+        </tr>
+        <tr>
+          <td><b>Opportunity</b></td>
+          <td>{{opportunityaction.opportunity.opportunityDisplay}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b>Description</b></td>
+          <td colspan="3">{{opportunityaction.description}}</td>
+        </tr>
+        </tbody>
+      </table>
+
+    </a>
+  </div>
+  <div ng-show="vm.opportunity" class="alert alert-warning text-center">
+    <a data-ui-sref="opportunityactions.create({ opportunityId: vm.opportunity._id })"><b>Add New Action</b></a>?
+  </div>
+</section>

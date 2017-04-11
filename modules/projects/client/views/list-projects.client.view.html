@@ -1,0 +1,34 @@
+<section>
+  <div class="page-header">
+    <h1>Manage Agile Projects</h1>
+  </div>
+  <span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+        <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+                ng-options="bu.name for bu in vm.businessUnits track by bu._id"
+                ng-change="vm.businessUnitChanged()">
+          <option value="">--All Business Units--</option>
+        </select>
+      </div>
+  <div class="form-group col-md-4" style="margin-top: 2em">
+    <select ng-change="vm.projectTypeChanged()" name="projectType" id="projectType" ng-model="vm.projectType"
+            class="form-control">
+      <option value="">--- Select a project type ---</option>
+      <option value="all">Show all project types</option>
+      <option value="customer">Customer Project</option>
+      <option value="product">Product Development Project</option>
+      <option value="estimate">Project for estimation only</option>
+      <option value="support">Support Management Project</option>
+      <option value="r&d">Research and Development Project</option>
+    </select>
+  </div>
+    <img ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+  </span>
+  <div ng-show="vm.projectType">
+    <search-table menu-callback="vm.projectListMenuCallback" titles="vm.projectListTitles"
+                  entries="vm.displayedValues"
+                  menu-item-labels="['View', 'Edit']"
+                  view-link-callback="vm.openProjectView"></search-table>
+  </div>
+</section>
+

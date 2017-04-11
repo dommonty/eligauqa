@@ -1,0 +1,73 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.approval._id ? 'Respond to Approval Request' : 'New Approval Request'}}</h1>
+    <h2>Quote: {{vm.quote.name}}</h2>
+    <h2>Customer: {{vm.quote.customer.name}}</h2>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.approvalForm" class="form-horizontal" ng-submit="vm.save(vm.form.approvalForm.$valid)"
+          novalidate>
+      <fieldset>
+        <div ng-if="vm.approval._id" class="form-group" show-errors>
+          <label for="status">Approval Status</label>
+          <select name="status" id="status" ng-model="vm.approval.status" class="form-control" required
+                  ng-options="status.description for status in vm.statuses track by status.key">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.approvalForm.status.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Status is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Approval comment</label>
+          <input ng-readonly="vm.approval._id" autofocus name="description" type="text" ng-model="vm.approval.description" id="description" class="form-control"
+                 placeholder="Approval description" required>
+          <div ng-messages="vm.form.approvalForm.description.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Approval description is required.</p>
+          </div>
+        </div>
+        <div ng-if="vm.approval._id" class="form-group" show-errors>
+          <label class="control-label" for="responseDescription">Approval response comment</label>
+          <input autofocus name="responseDescription" type="text" ng-model="vm.approval.responseDescription" id="responseDescription" class="form-control"
+                 placeholder="Approval response comment">
+        </div>
+        <div class="form-group" show-errors>
+          <label for="dueBy">Please respond by</label>
+          <div class="input-group">
+            <input ng-readonly="vm.approval._id" name="dueBy" id="dueBy" type="text" class="form-control"
+                   uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.approval.dueBy"
+                   is-open="vm.isCalendarOpen"
+                   ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.opportunityactionForm.dueBy.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Due date is required.</p>
+          </div>
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="approver">Send to approver or reviewer</label>
+          <select name="approver" id="approver" ng-model="vm.approval.approver" class="form-control"
+                  ng-options="approver.name for approver in vm.approvers track by approver._id" required>
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.approvalForm.assignee.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Assignee is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.approval._id ? 'Send Approval Response' : 'Send Approval Request'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

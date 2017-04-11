@@ -1,0 +1,75 @@
+<div class="page-header">
+  <h2>{{vm.allocation.cost.name}} Cost </h2>
+  <h2>Allocation squad: {{vm.allocation.squad.name}}</h2>
+</div>
+<button type="button" class="btn btn-primary btn-sm" ng-click="vm.openActualCaptureModal()">New Actual Entry</button>
+<div class="list-group">
+  <search-table menu-callback="vm.actualsMenuCallback" titles="vm.valuesTitles" entries="vm.displayedValues"
+                menu-item-labels="['Remove']"></search-table>
+</div>
+
+<a class="btn btn-secondary btn-sm" data-ui-sref="costallocations.view({ costallocationId: vm.allocation._id })">Back
+  to Cost Allocations</a>
+
+<div class="panel-body">
+  <script type="text/ng-template" id="captureActual.html">
+    <div class="modal-header">
+      <h4 class="modal-title">Cost Actual Entry</h4>
+    </div>
+    <div class="modal-body">
+      <form name="vm.form.costActualForm">
+        <div class="form-horizontal">
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="dateCreated">Creation Date</label>
+            <div class="col-sm-8">
+              <div class="input-group">
+                <input autofocus name="dateCreated" id="dateCreated" type="text" class="form-control"
+                       uib-datepicker-popup="{{vm.format}}"
+                       ng-model="vm.actual.dateCreated"
+                       is-open="vm.isCalendarOpen" datepicker-options="dateOptions" ng-required="true"
+                       close-text="Close"
+                       alt-input-formats="vm.altInputFormats"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+              </div>
+              <div ng-messages="vm.form.costActualForm.startDate.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Creation date is required</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class="col-sm-4 control-label" for="amount">Cost Amount</label>
+            <div class="col-sm-8">
+              <input name="amount" type="number" ng-model="vm.actual.amount" id="amount"
+                     class="form-control"
+                     required>
+              <div ng-messages="vm.form.costActualForm.amount.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Cost entry amount is required.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" show-errors>
+            <label class=" col-sm-4 control-label" for="description">Description</label>
+            <div class="col-sm-8">
+          <textarea name="description" type="text" ng-model="vm.actual.description" id="description"
+                    class="form-control" rows="2">
+            </textarea>
+            </div>
+          </div>
+
+          <div class="buttons-action">
+            <button class="btn btn-primary btn-sm" ng-click="confirmActual(vm.form.costActualForm.$valid)">
+              Confirm Actual
+            </button>
+            <button class="btn btn-secondary btn-sm" ng-click="cancel()">Cancel</button>
+          </div>
+          <div ng-show="vm.error" class="text-danger">
+            <strong ng-bind="vm.error"></strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </script>
+</div>

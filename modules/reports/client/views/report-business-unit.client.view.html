@@ -1,0 +1,193 @@
+<section>
+  <h1>Business Unit One Page Report</h1>
+  <span class="row">
+    <div class="form-group col-md-3" style="margin-top: 2em">
+      <label class="control-label">Business Unit</label>
+      <select name="businessUnit" id="businessUnit" ng-model="vm.businessUnit" class="form-control"
+              ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+        <option value="">---Select Business Unit---</option>
+      </select>
+    </div>
+    <div class="col-md-2" style="margin-top: 2em">
+      <label class="control-label">Probability</label>
+      <input class="form-control col-md-3" type="text" ng-model="vm.probability"
+             type="Number"/>
+    </div>
+    <div class="col-md-3" style="margin-top: 4em">
+      <button ng-show="vm.businessUnit && vm.probability >= 0" class="btn btn-primary btn-sm"
+              ng-click="vm.businessUnitChanged()">Build Report</button>
+       <img ng-show="vm.showSpinner" ng-src="img/spinner.gif" alt="Spinner" height="42" width="42">
+    </div>
+
+  </span>
+
+  <table ng-if="vm.showReport" class="display table dataTable table-formatting table-striped" id="team-table"
+         aria-describedby="team-table_info">
+    <thead>
+    <tr role="row">
+      <th><b>Outcome Team Name</b></th>
+      <th ng-if="vm.showOutcomeTeam[outcomeTeam._id]"
+          ng-repeat="outcomeTeam in vm.outcomeTeams track by outcomeTeam._id">
+        <div class="th"><a ng-click="vm.toggleOutcomeTeam(outcomeTeam)">{{outcomeTeam.name}}</a></div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><b>Business Unit Outcomes</b></td>
+      <td colspan="{{vm.outcomeTeams.length}}">
+        <div class="col-md-6 col-md-offset-3">
+          <ul>
+            <li ng-repeat="outcome in vm.businessUnitOutcomes track by $index">
+              <a
+                data-ui-sref="businessoutcomes.view({businessoutcomeId: outcome._id, businessunitId: vm.businessUnit._id})">{{outcome.name}}
+                ({{outcome.businessPeriod.periodDescription}})</a></li>
+          </ul>
+        </div>
+
+      </td>
+    </tr>
+    <tr>
+      <td><b>Outcome Owner</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        {{outcomeTeam.outcomeOwner.name}}
+      </td>
+    </tr>
+    <tr ng-show="vm.authentication.user.isUser">
+      <td><b>Outcome Team Projected Revenue (12mths)</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        {{outcomeTeam.next12MonthsValue | currency :$ :0}}
+      </td>
+    </tr>
+    <tr ng-show="vm.authentication.user.isUser">
+      <td><b>Outcome Team Cost (loaded)</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        {{outcomeTeam.loadedCost * -1 | currency :$ :0}}
+      </td>
+    </tr>
+    <tr ng-show="vm.authentication.user.isUser">
+      <td><b>Outcome Team Direct allocated Cost</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        {{outcomeTeam.next12MonthsCost * -1 | currency :$ :0}}
+      </td>
+    </tr>
+    <tr ng-show="vm.authentication.user.isUser">
+      <td><b>Outcome Team Projected Profit (+12mths)</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-class="{'negative-amount': outcomeTeam.profit  < 0}"
+          ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        {{outcomeTeam.profit | currency :$ :0}}
+      </td>
+    </tr>
+    <tr>
+      <td><b>Outcomes</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        <ul>
+          <li ng-repeat="outcome in vm.outcomes[outcomeTeam._id] track by $index">
+            <a data-ui-sref="outcomes.view({outcomeId: outcome._id, outcometeamId: outcomeTeam._id})">{{outcome.name}}
+              ({{outcome.businessPeriod.periodDescription}})</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Products</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        <ul>
+          <li ng-repeat="product in outcomeTeam.products track by $index">{{product.name}}</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Projects</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        <ul>
+          <li ng-repeat="project in outcomeTeam.projects track by $index">
+            <a ng-class="{'negative-amount': project.projectForecastProfitability  < 0}"
+               data-ui-sref="projects.view({projectId: project._id})">{{project.name}}
+              {{project.projectForecastProfitability | currency :$ :0}}</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr ng-if="!vm.hideSquads">
+      <td><b>Squads</b></td>
+      <td ng-if="vm.showOutcomeTeam[outcomeTeam._id]" ng-repeat="outcomeTeam in vm.outcomeTeams track by $index">
+        <table ng-if="vm.allSquads && vm.allSquads.length > 0"
+               class="display table dataTable table-formatting table-striped">
+          <tr>
+            <td>
+              <b>Squad Name</b>
+            </td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.name}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b>Squad Owner</b>
+            </td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.squadOwner.name}}
+            </td>
+          </tr>
+          <tr ng-show="vm.authentication.user.isUser">
+            <td><b>Squad Projected Revenue</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.next12MonthsValue | currency :$ :0}}
+            </td>
+          </tr>
+          <tr ng-show="vm.authentication.user.isUser">
+            <td><b>Squad Team Cost</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.loadedSquadCost * -1 | currency :$ :0}}
+            </td>
+          </tr>
+          <tr ng-show="vm.authentication.user.isUser">
+            <td><b>Squad Direct Cost</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.next12MonthsCost * -1 | currency :$ :0}}
+            </td>
+          </tr>
+          <tr ng-show="vm.authentication.user.isUser">
+            <td><b>Squad Projected Profit</b></td>
+            <td ng-class="{'negative-amount': squad.profit  < 0}"
+                ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              {{squad.profit | currency :$ :0}}
+            </td>
+          </tr>
+          <tr>
+            <td><b>Squad Outcomes</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              <ul>
+                <li ng-repeat="squadOutcome in vm.squadOutcomes[squad._id] track by $index">
+                  <a data-ui-sref="squadoutcomes.view({squadoutcomeId: squadOutcome._id, squadId: squad._id})">{{squadOutcome.name}}
+                    ({{squadOutcome.businessPeriod.periodDescription}})</a></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Products</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              <ul>
+                <li ng-repeat="product in squad.products track by $index">{{product.name}}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr ng-if="vm.allEmployees.$resolved && !vm.employees.length">
+            <td><b>Squad Members</b></td>
+            <td ng-repeat="squad in vm.squads[outcomeTeam._id] track by $index">
+              <ul>
+                <li ng-repeat="member in vm.squadMembers[squad._id] track by $index">{{member.name}}</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</section>
+
+
+
+

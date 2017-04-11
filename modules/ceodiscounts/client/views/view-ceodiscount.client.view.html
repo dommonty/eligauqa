@@ -1,0 +1,26 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.ceodiscount.discount}}%</h1>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.ceodiscount.isCurrentUserOwner">
+    <a class="btn btn-primary"
+       data-ui-sref="ceodiscounts.edit({ ceodiscountId: vm.ceodiscount._id })">
+      <i class="ssticon ssticon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="ssticon ssticon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.ceodiscount.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.ceodiscount.user"
+            data-ng-bind="vm.ceodiscount.user.displayName"></span>
+      <span data-ng-if="!vm.ceodiscount.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead" data-ng-bind="vm.ceodiscount.content"></p>
+</section>

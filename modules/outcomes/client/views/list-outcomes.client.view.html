@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h3>Outcomes for {{vm.outcomeTeam.name}} outcome team</h3>
+  </div>
+  <div class="list-group col-md-8">
+    <a data-ng-repeat="outcome in vm.outcomes"
+       data-ui-sref="outcomes.view({ outcomeId: outcome._id, outcometeamId: vm.outcomeTeam._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="outcome.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="outcome.user" data-ng-bind="outcome.user.displayName"></span>
+        <span data-ng-if="!outcome.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="outcome.name"></h4>
+    </a>
+  </div>
+  <div data-ng-show="vm.outcome.isCurrentUserOwner || vm.authentication.user.isUser" class="alert  text-center col-md-4">
+    <a data-ui-sref="outcomes.create({ outcometeamId: vm.outcomeTeam._id })"><b>New Outcome</b></a>
+  </div>
+</section>

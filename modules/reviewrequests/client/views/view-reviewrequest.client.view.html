@@ -1,0 +1,39 @@
+<section>
+  <div class="page-header">
+    <h1>Outcome review Request</h1>
+    <h2 data-ng-bind="vm.reviewrequest.name"></h2>
+  </div>
+  <div class="pull-right">
+    <button class="btn btn-primary" ng-show="vm.reviewrequest.status === 'open'"
+            ng-click="vm.assignToReviewerAndReviewee()">Notify Reviewer & Reviewee
+    </button>
+    <a ng-show="vm.reviewrequests.isCurrentUserOwner || vm.authentication.user.isAdmin || vm.authentication.user.isHRAdmin" class="btn btn-secondary"
+       data-ui-sref="performancereviews.list({reviewrequestId: vm.reviewrequest._id })">
+      View Reviews
+    </a>
+    <a ng-show="vm.canEdit()" class="btn btn-primary"
+       data-ui-sref="reviewrequests.edit({ reviewrequestId: vm.reviewrequest._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a ng-show="vm.canRemove()" class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.reviewrequest.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.reviewrequest.user"
+            data-ng-bind="vm.reviewrequest.user.displayName"></span>
+      <span data-ng-if="!vm.reviewrequest.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead">Status: {{vm.reviewrequest.statusDescription}}</p>
+  <p class="lead">Due by: {{vm.reviewrequest.dueBy | date :medium}}</p>
+  <p class="lead">Reviewee:: {{vm.reviewrequest.reviewee.name }}</p>
+  <p class="lead">Reviewer: {{vm.reviewrequest.reviewer.name}}</p>
+  <div ng-show="vm.message" class="text-success">
+    <strong ng-bind="vm.message"></strong>
+  </div>
+</section>

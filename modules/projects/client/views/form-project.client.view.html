@@ -1,0 +1,215 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.project._id ? 'Edit Project' : 'New Project'}}</h1>
+  </div>
+  <div class="col-md-6">
+    <form name="vm.form.projectForm" class="form-horizontal" ng-submit="vm.save(vm.form.projectForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input autofocus name="name" type="text" ng-model="vm.project.name" id="name" class="form-control"
+                 placeholder="Name"
+                 required>
+          <div ng-messages="vm.form.projectForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="status">Project Type</label>
+          <select required name="projectType" id="projectType" ng-model="vm.project.projectType" class="form-control"
+          <option value="">---Please select ---</option>
+          <option value="customer">Customer Project</option>
+          <option value="product">Product Project</option>
+          <option value="estimate">Project for Estimate Only</option>
+          <option value="r&d">Research and Development Project</option>
+          <option value="support">Project to manage support</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.status.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project status is required</p>
+          </div>
+        </div>
+        <div ng-show="vm.project.projectType ==='r&d'" class="form-group" show-errors>
+          <label class="control-label" for="advisoryCommitteeApprovalDate">Advisory Committee Approval Date</label>
+          <div class="input-group">
+            <input name="advisoryCommitteeApprovalDate" id="advisoryCommitteeApprovalDate" type="text"
+                   class="form-control" uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.project.advisoryCommitteeApprovalDate"
+                   is-open="vm.isAdvisoryCalendarOpen"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openAdvisoryCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+        </div>
+        <div ng-show="vm.project.projectType ==='r&d'" class="form-group" show-errors>
+          <label class="control-label" for="description">R & D Project Outcomes</label>
+          <textarea name="researchAndDevelopmentProjectOutcomes" type="text"
+                    ng-model="vm.project.researchAndDevelopmentProjectOutcomes"
+                    id="researchAndDevelopmentProjectOutcomes"
+                    class="form-control" rows="4">
+            </textarea>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="businessUnit">Business Unit</label>
+          <select name="businessUnit" id="businessUnit" ng-model="vm.project.businessUnit" class="form-control"
+                  ng-change="vm.updateOutcomeTeamsList()"
+                  required ng-options="bu.name for bu in vm.businessUnits track by bu._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.businessUnit.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business unit is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="outcomeTeam">Outcome Team</label>
+          <select name="outcomeTeam" id="outcomeTeam" ng-model="vm.project.outcomeTeam" class="form-control"
+                  required ng-change="vm.outcomeTeamChanged()"
+                  ng-options="team.name + ' (' + team.businessUnit.name + ')' for team in vm.outcomeTeams track by team._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.outcomeTeam.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Outcome team is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="projectManager">Project Lead</label>
+          <select name="projectManager" id="projectManager" ng-model="vm.project.projectManager" class="form-control"
+                  required
+                  ng-options="pm.name for pm in vm.projectManagers track by pm._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.projectManager.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project Manager is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="customerSelect">Customer</label>
+          <select autofocus name="customerSelect" id="customerSelect" ng-model="vm.project.customer"
+                  class="form-control"
+                  required ng-options="customer.name for customer in vm.customers track by customer._id">
+            <option value="">---Please select---</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.customer.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Customer is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="startDate">Start Date</label>
+          <div class="input-group">
+            <input name="startDate" id="startDate" type="text" class="form-control" uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.project.startDate"
+                   is-open="vm.isStartCalendarOpen" datepicker-options="dateOptions" ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openStartCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.projectForm.startDate.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project start date is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="endDate">End Date</label>
+          <div class="input-group">
+            <input name="endDate" id="endDate" type="text" class="form-control" uib-datepicker-popup="{{vm.format}}"
+                   ng-model="vm.project.endDate"
+                   is-open="vm.isEndCalendarOpen" datepicker-options="dateOptions" ng-required="true"
+                   close-text="Close"
+                   alt-input-formats="vm.altInputFormats"/>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="vm.openEndCalendar()"><span
+                      class="ssticon ssticon-calendar"></span></button>
+                  </span>
+          </div>
+          <div ng-messages="vm.form.projectForm.endDate.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project start date is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="budget">Budget</label>
+          <input autofocus name="budget" type="number" ng-model="vm.project.budget" id="budget" class="form-control"
+                 placeholder="$"
+                 required>
+          <div ng-messages="vm.form.projectForm.budget.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project budget is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="estimatedStoryPoints">Estimated Story Points</label>
+          <input name="estimatedStoryPoints" type="number" ng-model="vm.project.estimatedStoryPoints"
+                 id="estimatedStoryPoints" class="form-control" required>
+          <div ng-messages="vm.form.projectForm.estimatedStoryPoints.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project estimated story points is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="plannedVelocity">Planned Velocity</label>
+          <input name="plannedVelocity" type="number" ng-model="vm.project.plannedVelocity"
+                 id="plannedVelocity" class="form-control" required>
+          <div ng-messages="vm.form.projectForm.plannedVelocity.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Planned velocity is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="sprintDuration">Sprint Duration (days)</label>
+          <input name="sprintDuration" type="number" ng-model="vm.project.sprintDuration"
+                 id="sprintDuration" class="form-control" required>
+          <div ng-messages="vm.form.projectForm.sprintDuration.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Sprint duration is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Description</label>
+          <textarea name="description" type="text" ng-model="vm.project.description" id="description"
+                    class="form-control" rows="4">
+            </textarea>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="status">Project Progress Status</label>
+          <select required name="status" id="status" ng-model="vm.project.status" class="form-control"
+          <option value="">---Please select ---</option>
+          <option value="open">Open</option>
+          <option value="approved">Approved</option>
+          <option value="progress">In progress</option>
+          <option value="closed">Closed</option>
+          </select>
+          <div ng-messages="vm.form.projectForm.status.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Project status is required</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="keyMilestonesDescription">Key Milestones Description</label>
+          <textarea name="keyMilestonesDescription" type="text" ng-model="vm.project.keyMilestonesDescription"
+                    id="keyMilestonesDescription"
+                    class="form-control" rows="4">
+            </textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="confluence">Confluence</label>
+          <input autofocus name="confluence" type="text" ng-model="vm.project.confluence" id="confluence"
+                 class="form-control"
+                 placeholder="https://confluence.sandstone.com.au/...">
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="jira">Jira</label>
+          <input autofocus name="jira" type="text" ng-model="vm.project.jira" id="jira"
+                 class="form-control"
+                 placeholder="https://jira.sandstone.com.au/...">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{vm.project._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <div id="burndown-container"></div>
+  </div>
+</section>

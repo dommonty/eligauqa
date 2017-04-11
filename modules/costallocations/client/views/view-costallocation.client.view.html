@@ -1,0 +1,55 @@
+<section>
+  <div class="page-header">
+    <h2> Cost allocation for {{vm.cost.name}}</h2>
+    <small>
+      <em class="text-muted">
+        Posted on
+        <span data-ng-bind="vm.costallocation.created | date:'mediumDate'"></span>
+        by
+      <span data-ng-if="vm.costallocation.user"
+            data-ng-bind="vm.costallocation.user.displayName"></span>
+        <span data-ng-if="!vm.costallocation.user">Deleted User</span>
+      </em>
+    </small>
+  </div>
+
+  <div class="pull-right"
+       data-ng-show="vm.costallocation.isCurrentUserOwner || vm.authentication.user.isAdmin">
+    <a class="btn btn-primary"
+       data-ui-sref="costs.view({ costId: vm.costallocation.cost._id })">
+      Back to Cost
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="costallocations.actuals({ costallocationId: vm.costallocation._id })">
+      Actuals
+    </a>
+    <a class="btn btn-primary"
+       data-ui-sref="costallocations.edit({ costallocationId: vm.costallocation._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+
+  <div class="col-md-6">
+    <table class="display table dataTable table-formatting table-striped">
+      <tbody>
+      <tr>
+        <td><b>Allocated Amount</b></td>
+        <td>{{vm.costallocation.allocatedCost | currency :'$' :0}}</td>
+      </tr>
+      <tr>
+        <td><b>Allocated Percentage</b></td>
+        <td>{{vm.costallocation.allocation | number :0}}%</td>
+      </tr>
+      <tr>
+        <td><b>Allocated Squad</b></td>
+        <td>{{vm.costallocation.squad.name}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+

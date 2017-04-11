@@ -1,0 +1,29 @@
+<section>
+  <div class="page-header">
+    <h2>{{vm.customercontact.name}} ({{vm.customer.name}})</h2>
+  </div>
+  <div class="pull-right"
+       data-ng-show="vm.customercontact.isCurrentUserOwner || vm.authentication.user.isUser">
+    <a class="btn btn-primary"
+       data-ui-sref="customercontacts.edit({ customercontactId: vm.customercontact._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" data-ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span data-ng-bind="vm.customercontact.created | date:'mediumDate'"></span>
+      by
+      <span data-ng-if="vm.customercontact.user"
+            data-ng-bind="vm.customercontact.user.displayName"></span>
+      <span data-ng-if="!vm.customercontact.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead"><b>Email: </b>{{vm.customercontact.email?vm.customercontact.email:'Please provide'}}</p>
+  <p class="lead"><b>Mobile: </b>{{vm.customercontact.mobile?vm.customercontact.mobile: 'Please provide'}}</p>
+
+
+ </section>

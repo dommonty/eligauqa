@@ -1,0 +1,36 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.customercontact._id ? 'Edit Customer contact' : 'New Customer contact'}} for {{vm.customer.name}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.customercontactForm" class="form-horizontal" ng-submit="vm.save(vm.form.customercontactForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="name" type="text" ng-model="vm.customercontact.name" id="name" class="form-control" placeholder="Name" required>
+          <div ng-messages="vm.form.customercontactForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Customer contact name is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="role">Organisation Role</label>
+          <input name="name" type="text" ng-model="vm.customercontact.role" id="role" class="form-control" placeholder="Organisation Role">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="email" type="email" ng-model="vm.customercontact.email" id="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="mobile">Mobile</label>
+          <input name="mobile" type="mobile" ng-model="vm.customercontact.mobile" id="mobile" class="form-control" placeholder="Mobile">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.customercontact._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
